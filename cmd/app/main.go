@@ -25,6 +25,12 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	defer dbConnection.Close(context.Background())
+
+	err = database.CreateBaseTables(dbConnection)
+	if err != nil {
+		return err
+	}
 
 	router := startRouter()
 
@@ -37,22 +43,19 @@ func run() error {
 func connectToDatabase() (*pgx.Conn, error) {
 	dbUrl, err := getfromjson.GetDatabaseConData()
 	if err != nil {
-		log.Fatalf("Error while getting database url: %v", err)
-		return nil, err
+		return nil, fmt.Errorf("Error while getting database url: %v", err)
 	}
 
 	conn, err := database.DB_Init(dbUrl)
 	if err != nil {
-		log.Fatalf("Error while connecting to database: %v", err)
 		return nil, err
 	}
 
 	err = conn.Ping(context.Background())
 	if err != nil {
-		log.Fatal("db err")
-		return nil, err
+		return nil, fmt.Errorf("Error while Ping db connection: %v", err)
 	}
-	fmt.Println("db works")
+
 	return conn, nil
 }
 
