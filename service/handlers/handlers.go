@@ -5,10 +5,12 @@ import (
 	signup "SocialServiceAincrad/internal/sign_up"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v4"
 )
 
-func AllRequests(router *gin.Engine, dbConn *pgx.Conn) {
-	router.GET("/sign-in", signin.SignIn)
-	router.GET("/sign-up", signup.SignUp)
+func AllRequests(router *gin.Engine) {
+	router.GET("/sign-in", signin.SignInGET)
+	router.POST("/login", signin.SignInPOST)
+
+	router.GET("/sign-up", signup.SignUpGET)
+	router.POST("/registration", signup.SignUpPOST)
 }

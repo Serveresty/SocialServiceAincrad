@@ -9,7 +9,6 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v4"
 )
 
 func main() {
@@ -21,42 +20,42 @@ func main() {
 }
 
 func run() error {
-	dbConnection, err := connectToDatabase()
+	err := connectToDatabase()
 	if err != nil {
 		return err
 	}
-	defer dbConnection.Close(context.Background())
+	defer database.DB.Close(context.Background())
 
-	err = database.CreateBaseTables(dbConnection)
+	err = database.CreateBaseTables()
 	if err != nil {
 		return err
 	}
 
 	router := startRouter()
 
-	handlers.AllRequests(router, dbConnection)
+	handlers.AllRequests(router)
 
 	router.Run(":8080")
 	return nil
 }
 
-func connectToDatabase() (*pgx.Conn, error) {
+func connectToDatabase() error {
 	dbUrl, err := getfromjson.GetDatabaseConData()
 	if err != nil {
-		return nil, fmt.Errorf("Error while getting database url: %v", err)
+		return fmt.Errorf("Error while getting database url: %v", err)
 	}
 
-	conn, err := database.DB_Init(dbUrl)
+	err = database.DB_Init(dbUrl)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	err = conn.Ping(context.Background())
+	err = database.DB.Ping(context.Background())
 	if err != nil {
-		return nil, fmt.Errorf("Error while Ping db connection: %v", err)
+		return fmt.Errorf("Error while Ping db connection: %v", err)
 	}
 
-	return conn, nil
+	return nil
 }
 
 func startRouter() *gin.Engine {

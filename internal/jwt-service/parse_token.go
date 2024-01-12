@@ -1,0 +1,5 @@
+package jwtservice
+
+func parceToken() {
+
+}
