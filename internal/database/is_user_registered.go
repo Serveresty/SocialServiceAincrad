@@ -3,13 +3,30 @@ package database
 import (
 	"SocialServiceAincrad/models"
 	"context"
+	"fmt"
 )
 
 func IsUserRegistered(user *models.User) bool {
-	query := `INSERT INTO users_data (first_name, last_name, sex, username, email, phone) VALUES `
-	args := user.First_name + user.Last_name + user.Sex + user.Username + user.Email + user.Phone
-	_, err := DB.Exec(context.Background(), query, args)
+	query := `SELECT user_id FROM "users_data" WHERE username = $1 or email = $2 or phone = $3`
+	rows, err := DB.Query(context.Background(), query, user.Username, user.Email, user.Phone)
 	if err != nil {
+		fmt.Println(err)
+		return true
+	}
+	defer rows.Close()
+
+	var arr []int
+	for rows.Next() {
+		var id int
+		err = rows.Scan(&id)
+		if err != nil {
+			return true
+		}
+
+		arr = append(arr, id)
+	}
+
+	if len(arr) > 0 {
 		return true
 	}
 
