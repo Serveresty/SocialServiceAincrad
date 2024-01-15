@@ -11,11 +11,22 @@ import (
 
 // GET
 func SignUpGET(c *gin.Context) {
+	err := utils.CheckAlreadyToken(c)
+	if err != nil {
+		c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"message": "Sign-Up Page"})
 }
 
 // POST
 func SignUpPOST(c *gin.Context) {
+	err := utils.CheckAlreadyToken(c)
+	if err != nil {
+		c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
+		return
+	}
+
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
