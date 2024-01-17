@@ -7,19 +7,20 @@ import (
 	"context"
 )
 
-func GetAuthData(user *models.AuthUser) (string, error) {
-	row := DB.QueryRow(context.Background(), `SELECT email, password FROM "users_data" WHERE email = $1`, user.Email)
+func GetAuthData(user *models.AuthUser) (int, string, error) {
+	row := DB.QueryRow(context.Background(), `SELECT id, password FROM "users_data" WHERE email = $1`, user.Email)
 
-	var email, passwordHash string
+	var id int
+	var passwordHash string
 
-	err := row.Scan(&email, &passwordHash)
+	err := row.Scan(&id, &passwordHash)
 	if err != nil {
-		return "", err
+		return 0, "", err
 	}
 
 	if ok := utils.CheckPasswordHash(user.Password, passwordHash); !ok {
-		return "", cerr.HashError
+		return 0, "", cerr.HashError
 	}
 
-	return email, nil
+	return id, user.Email, nil
 }

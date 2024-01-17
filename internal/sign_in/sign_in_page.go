@@ -34,11 +34,18 @@ func SignInPOST(c *gin.Context) {
 		return
 	}
 
-	email, err := database.GetAuthData(&user)
+	id, email, err := database.GetAuthData(&user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	roles, err := database.GetUserRoles(id)
+	if err != nil {
+		c.JSON(http.StatusConflict, gin.H{"error": "Error while scanning roles: " + err.Error()})
+		return
+	}
+	// ! ПОЛУЧИТЬ РОЛИ И НАПИСАТЬ ФУНКЦИЮ ГЕНЕРАЦИИ ТОКЕНА
 
 	token, err := jwtservice.GenerateToken(email)
 	if err != nil {

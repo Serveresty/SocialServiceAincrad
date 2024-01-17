@@ -2,14 +2,22 @@ package main
 
 import (
 	"SocialServiceAincrad/internal/database"
-	getfromjson "SocialServiceAincrad/internal/get_from_json"
+	getfromenv "SocialServiceAincrad/internal/get_from_env"
 	"SocialServiceAincrad/service/handlers"
 	"context"
 	"fmt"
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
+
+func init() {
+	// loads values from .env into the system
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
+}
 
 func main() {
 
@@ -40,12 +48,9 @@ func run() error {
 }
 
 func connectToDatabase() error {
-	dbUrl, err := getfromjson.GetDatabaseConData()
-	if err != nil {
-		return fmt.Errorf("Error while getting database url: %v", err)
-	}
+	dbUrl := getfromenv.GetDatabaseConData()
 
-	err = database.DB_Init(dbUrl)
+	err := database.DB_Init(dbUrl)
 	if err != nil {
 		return err
 	}
