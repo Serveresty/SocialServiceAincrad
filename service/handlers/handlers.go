@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"SocialServiceAincrad/internal/requests/profile"
 	signin "SocialServiceAincrad/internal/requests/sign_in"
 	signup "SocialServiceAincrad/internal/requests/sign_up"
 
@@ -8,9 +9,15 @@ import (
 )
 
 func AllRequests(router *gin.Engine) {
-	router.GET("/sign-in", signin.SignInGET)
-	router.POST("/login", signin.SignInPOST)
+	api := router.Group("")
+	{
+		api.GET("sign-in", signin.SignInGET)
+		api.POST("login", signin.SignInPOST)
 
-	router.GET("/sign-up", signup.SignUpGET)
-	router.POST("/registration", signup.SignUpPOST)
+		api.GET("sign-up", signup.SignUpGET)
+		api.POST("registration", signup.SignUpPOST)
+
+		api.GET(":id", profile.ProfileGET)
+		api.POST(":id", profile.ProfilePOST)
+	}
 }
