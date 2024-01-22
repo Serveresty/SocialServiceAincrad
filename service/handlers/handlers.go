@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	signin "SocialServiceAincrad/internal/sign_in"
-	signup "SocialServiceAincrad/internal/sign_up"
+	signin "SocialServiceAincrad/internal/requests/sign_in"
+	signup "SocialServiceAincrad/internal/requests/sign_up"
 
 	"github.com/gin-gonic/gin"
 )
