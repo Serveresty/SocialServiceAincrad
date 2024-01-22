@@ -1,6 +1,7 @@
 package signin
 
 import (
+	cerr "SocialServiceAincrad/custom_errors"
 	"SocialServiceAincrad/internal/database"
 	jwtservice "SocialServiceAincrad/internal/jwt-service"
 	"SocialServiceAincrad/models"
@@ -14,7 +15,7 @@ import (
 func SignInGET(c *gin.Context) {
 	err := utils.CheckAlreadyToken(c)
 	if err != nil {
-		c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
+		c.JSON(http.StatusForbidden, gin.H{"error": cerr.AlreadyAuthorized})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Sign-In Page"})
@@ -24,7 +25,7 @@ func SignInGET(c *gin.Context) {
 func SignInPOST(c *gin.Context) {
 	err := utils.CheckAlreadyToken(c)
 	if err != nil {
-		c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
+		c.JSON(http.StatusForbidden, gin.H{"error": cerr.AlreadyAuthorized})
 		return
 	}
 
