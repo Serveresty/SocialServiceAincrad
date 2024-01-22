@@ -27,9 +27,8 @@ func CreateBaseTables() error {
 	CREATE TABLE IF NOT EXISTS "social" (social_id bigserial PRIMARY KEY, personal_web VARCHAR(255), instagram VARCHAR(50), steam VARCHAR(50));
 	CREATE TABLE IF NOT EXISTS "info" (info_id bigserial PRIMARY KEY, short_info VARCHAR(255), family_state VARCHAR(20), born_city VARCHAR(170), current_resident VARCHAR(170), social_info bigint references social (social_id) on delete cascade);
 	CREATE TABLE IF NOT EXISTS "users_info" (user_id bigint references users_data (user_id) on delete cascade, info_id bigint references info (info_id) on delete cascade);
-	CREATE TABLE IF NOT EXISTS "friend_status" (status_id serial PRIMARY KEY, status_name VARCHAR(50) UNIQUE)
+	CREATE TABLE IF NOT EXISTS "friend_status" (status_id serial PRIMARY KEY, status_name VARCHAR(50) UNIQUE);
 	CREATE TABLE IF NOT EXISTS "friends" (first bigint references users_data (user_id) on delete cascade, second bigint references users_data (user_id) on delete cascade, status_id int references friend_status (status_id));
-	INSERT INTO "roles" ("role_name") VALUES ('user'), ('support'), ('moderator'), ('admin');
 	`)
 	if err != nil {
 		return fmt.Errorf("Error while creating base tables: %v", err)
@@ -37,10 +36,14 @@ func CreateBaseTables() error {
 
 	_, err = DB.Exec(context.Background(), `
 	INSERT INTO "roles" ("role_name") VALUES ('user'), ('support'), ('moderator'), ('admin');
+	`)
+	if err != nil {
+	}
+
+	_, err = DB.Exec(context.Background(), `
 	INSERT INTO "friend_status" ("status_name") VALUES ('wait'), ('friend'), ('follower');
 	`)
 	if err != nil {
-		return nil
 	}
 
 	return nil
