@@ -45,9 +45,8 @@ func SignInPOST(c *gin.Context) {
 		c.JSON(http.StatusConflict, gin.H{"error": "Error while scanning roles: " + err.Error()})
 		return
 	}
-	// ! ПОЛУЧИТЬ РОЛИ И НАПИСАТЬ ФУНКЦИЮ ГЕНЕРАЦИИ ТОКЕНА
 
-	token, err := jwtservice.GenerateToken(email)
+	token, err := jwtservice.GenerateToken(email, roles, user.StayLoggedIn)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
