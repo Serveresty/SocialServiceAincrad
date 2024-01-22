@@ -3,26 +3,25 @@ package jwtservice
 import (
 	"SocialServiceAincrad/configs"
 	"SocialServiceAincrad/models"
-	"strconv"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
-func GenerateToken(id int, roles []string, loggedIn bool) (string, error) {
+func GenerateToken(id string, roles []string, loggedIn bool) (string, error) {
 	var claims *models.JWTClaims
 	if loggedIn {
 		claims = &models.JWTClaims{
 			Role: roles,
 			StandardClaims: jwt.StandardClaims{
-				Subject: strconv.Itoa(id),
+				Subject: id,
 			},
 		}
 	} else {
 		claims = &models.JWTClaims{
 			Role: roles,
 			StandardClaims: jwt.StandardClaims{
-				Subject:   strconv.Itoa(id),
+				Subject:   id,
 				ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 			},
 		}
