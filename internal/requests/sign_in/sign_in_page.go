@@ -2,7 +2,7 @@ package signin
 
 import (
 	cerr "SocialServiceAincrad/custom_errors"
-	"SocialServiceAincrad/internal/database"
+	profiledb "SocialServiceAincrad/internal/database/profile_db"
 	jwtservice "SocialServiceAincrad/internal/jwt-service"
 	"SocialServiceAincrad/models"
 	"SocialServiceAincrad/utils"
@@ -36,13 +36,13 @@ func SignInPOST(c *gin.Context) {
 		return
 	}
 
-	id, username, err := database.GetAuthData(&user)
+	id, username, err := profiledb.GetAuthData(&user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	roles, err := database.GetUserRoles(id)
+	roles, err := profiledb.GetUserRoles(id)
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": "Error while scanning roles: " + err.Error()})
 		return

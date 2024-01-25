@@ -1,6 +1,7 @@
-package database
+package utilsdb
 
 import (
+	"SocialServiceAincrad/internal/database"
 	"SocialServiceAincrad/models"
 	"context"
 	"fmt"
@@ -8,7 +9,7 @@ import (
 
 func IsUserRegistered(user *models.User) bool {
 	query := `SELECT user_id FROM "users_data" WHERE username = $1 or email = $2 or phone = $3`
-	rows, err := DB.Query(context.Background(), query, user.Username, user.Email, user.Phone)
+	rows, err := database.DB.Query(context.Background(), query, user.Username, user.Email, user.Phone)
 	if err != nil {
 		fmt.Println(err)
 		return true

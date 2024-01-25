@@ -2,7 +2,8 @@ package signup
 
 import (
 	cerr "SocialServiceAincrad/custom_errors"
-	"SocialServiceAincrad/internal/database"
+	profiledb "SocialServiceAincrad/internal/database/profile_db"
+	utilsdb "SocialServiceAincrad/internal/database/utils_db"
 	"SocialServiceAincrad/models"
 	"SocialServiceAincrad/utils"
 	"net/http"
@@ -34,7 +35,7 @@ func SignUpPOST(c *gin.Context) {
 		return
 	}
 
-	ok := database.IsUserRegistered(&user)
+	ok := utilsdb.IsUserRegistered(&user)
 	if ok {
 		c.JSON(http.StatusConflict, gin.H{"error": "user already registered"})
 		return
@@ -48,7 +49,7 @@ func SignUpPOST(c *gin.Context) {
 
 	user.Password = hashPwd
 
-	err = database.CreateUser(&user)
+	err = profiledb.CreateUser(&user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error while creating a new user: " + err.Error()})
 		return

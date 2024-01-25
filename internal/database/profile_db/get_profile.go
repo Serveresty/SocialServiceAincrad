@@ -1,4 +1,4 @@
-package profileactions
+package profiledb
 
 import (
 	"SocialServiceAincrad/internal/database"

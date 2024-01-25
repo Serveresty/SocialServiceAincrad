@@ -1,6 +1,7 @@
-package profileactions
+package profile
 
 import (
+	profiledb "SocialServiceAincrad/internal/database/profile_db"
 	"SocialServiceAincrad/models"
 	"strconv"
 )
@@ -8,14 +9,14 @@ import (
 func GetProfileData(id string) (*models.ProfileData, error) {
 	intId, err := strconv.Atoi(id)
 	if err != nil {
-		data, err := GetProfileByUsername(id)
+		data, err := profiledb.GetProfileByUsername(id)
 		if err != nil {
 			return nil, err
 		}
 		return data, nil
 	}
 
-	data, err := GetProfileById(intId)
+	data, err := profiledb.GetProfileById(intId)
 	if err != nil {
 		return nil, err
 	}

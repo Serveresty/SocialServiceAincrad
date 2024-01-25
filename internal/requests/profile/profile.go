@@ -2,7 +2,6 @@ package profile
 
 import (
 	cerr "SocialServiceAincrad/custom_errors"
-	profileactions "SocialServiceAincrad/internal/database/profile_actions"
 	jwtservice "SocialServiceAincrad/internal/jwt-service"
 	"SocialServiceAincrad/models"
 	"SocialServiceAincrad/utils"
@@ -29,14 +28,14 @@ func ProfileGET(c *gin.Context) {
 
 	var profileData *models.ProfileData
 	if claims.Id == id {
-		profileData, err = profileactions.GetProfileData(claims.Id)
+		profileData, err = GetProfileData(claims.Id)
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
 		}
 	} else {
 		// Check private settings then get page!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		profileData, err = profileactions.GetProfileData(id)
+		profileData, err = GetProfileData(id)
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return

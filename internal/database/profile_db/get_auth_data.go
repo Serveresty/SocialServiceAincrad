@@ -1,14 +1,15 @@
-package database
+package profiledb
 
 import (
 	cerr "SocialServiceAincrad/custom_errors"
+	"SocialServiceAincrad/internal/database"
 	"SocialServiceAincrad/models"
 	"SocialServiceAincrad/utils"
 	"context"
 )
 
 func GetAuthData(user *models.AuthUser) (int, string, error) {
-	row := DB.QueryRow(context.Background(), `SELECT user_id, username, password FROM "users_data" WHERE email = $1`, user.Email)
+	row := database.DB.QueryRow(context.Background(), `SELECT user_id, username, password FROM "users_data" WHERE email = $1`, user.Email)
 
 	var id int
 	var passwordHash string
