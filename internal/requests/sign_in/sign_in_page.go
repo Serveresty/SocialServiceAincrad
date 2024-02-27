@@ -36,7 +36,7 @@ func SignInPOST(c *gin.Context) {
 		return
 	}
 
-	id, username, err := profiledb.GetAuthData(&user)
+	id, err := profiledb.GetAuthData(&user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -48,19 +48,10 @@ func SignInPOST(c *gin.Context) {
 		return
 	}
 
-	var token string
-	if username != "" {
-		token, err = jwtservice.GenerateToken(username, roles, user.StayLoggedIn)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-	} else {
-		token, err = jwtservice.GenerateToken(strconv.Itoa(id), roles, user.StayLoggedIn)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
+	token, err := jwtservice.GenerateToken(strconv.Itoa(id), roles, user.StayLoggedIn)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	c.Header("Authorization", token)
