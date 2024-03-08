@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -56,7 +57,7 @@ func connectToDatabase() error {
 
 	err = database.DB.Ping(context.Background())
 	if err != nil {
-		return fmt.Errorf("Error while Ping db connection: %v", err)
+		return fmt.Errorf("error while Ping db connection: %v", err)
 	}
 
 	return nil
@@ -65,6 +66,13 @@ func connectToDatabase() error {
 func startRouter() *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
+
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"}
+	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
+	config.AllowHeaders = []string{"Authorization", "Content-Type"}
+	config.AllowCredentials = true
+	router.Use(cors.New(config))
 
 	return router
 }

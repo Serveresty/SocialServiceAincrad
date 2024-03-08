@@ -56,5 +56,5 @@ func SignInPOST(c *gin.Context) {
 
 	c.Header("Authorization", token)
 
-	c.JSON(http.StatusOK, gin.H{"message": "Access granted"})
+	c.JSON(http.StatusOK, gin.H{"token": token})
 }
