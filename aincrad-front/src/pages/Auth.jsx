@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const AuthComponent = () => {
   const [email, setEmail] = useState('');
@@ -20,7 +21,7 @@ const AuthComponent = () => {
         // Успешная авторизация, можно обработать ответ, например, сохранить токен
         const data = await response.json();
         console.log('Успешная авторизация:', data);
-
+        localStorage.setItem('accessToken', data);
         // Дополнительные действия после успешной авторизации
       } else {
         // Обработка ошибок

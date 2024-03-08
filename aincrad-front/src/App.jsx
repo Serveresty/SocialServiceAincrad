@@ -5,8 +5,13 @@ import { createBrowserRouter, RouterProvider, Route, Link } from 'react-router-d
 import './App.css'
 import AuthComponent from './pages/Auth';
 import RegistrationComponent from './pages/Registration';
+import EmptyComponent from './pages/Main';
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <EmptyComponent/>
+  },
   {
     path: "/sign-up",
     element: <RegistrationComponent/>
