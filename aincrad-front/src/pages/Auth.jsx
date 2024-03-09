@@ -1,7 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 const AuthComponent = () => {
+  const cookies = new Cookies();
+  const history = useNavigate();
+  
+  useEffect(() => {
+    const authToken = cookies.get('authToken');
+    if (authToken) {
+      history('/');
+    }
+  }, [cookies, history]);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,11 +29,10 @@ const AuthComponent = () => {
       });
 
       if (response.ok) {
-        // Успешная авторизация, можно обработать ответ, например, сохранить токен
         const data = await response.json();
-        console.log('Успешная авторизация:', data);
-        localStorage.setItem('accessToken', data);
-        // Дополнительные действия после успешной авторизации
+        console.log('Успешная авторизация:', data.token);
+
+        cookies.set('authToken', data.token, { path: '/'});
       } else {
         // Обработка ошибок
         console.error('Ошибка авторизации:', response.statusText);

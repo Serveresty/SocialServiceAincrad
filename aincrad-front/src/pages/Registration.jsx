@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 
 const RegistrationComponent = () => {
+  const cookies = new Cookies();
+  const history = useNavigate();
+  
+  useEffect(() => {
+    const authToken = cookies.get('authToken');
+    if (authToken) {
+      history('/');
+    }
+  }, [cookies, history]);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [sex, setSex] = useState('');
