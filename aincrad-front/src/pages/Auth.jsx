@@ -33,6 +33,7 @@ const AuthComponent = () => {
         console.log('Успешная авторизация:', data.token);
 
         cookies.set('authToken', data.token, { path: '/'});
+        history('/');
       } else {
         // Обработка ошибок
         console.error('Ошибка авторизации:', response.statusText);

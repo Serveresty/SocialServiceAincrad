@@ -6,6 +6,7 @@ import './App.css'
 import AuthComponent from './pages/Auth';
 import RegistrationComponent from './pages/Registration';
 import EmptyComponent from './pages/Main';
+import ProfileComponent from './pages/Profile';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/sign-in",
     element: <AuthComponent/>,
+  },
+  {
+    path: "/:id",
+    element: <ProfileComponent/>
   },
 ]);
 

@@ -3,7 +3,6 @@ package profilemethods
 import (
 	profiledb "SocialServiceAincrad/internal/database/profile_db"
 	"SocialServiceAincrad/models"
-	"fmt"
 	"strconv"
 )
 
@@ -17,8 +16,6 @@ func GetProfileData(id string, privacy models.PrivacySettings) (*models.ProfileD
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println(privacy)
 
 	return data, nil
 }
