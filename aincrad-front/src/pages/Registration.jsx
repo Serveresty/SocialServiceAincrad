@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 const RegistrationComponent = () => {
   const cookies = new Cookies();
@@ -17,10 +19,15 @@ const RegistrationComponent = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegistration = async () => {
     try {
-      // Здесь можно добавить валидацию полей формы перед отправкой на бэкенд
+      
+      if(password != confirmPassword) {
+        console.error('Ошибка регистрации:', "Passwords not equal");
+        return;
+      }
 
       const response = await fetch('http://localhost:8080/registration', {
         method: 'POST',
@@ -38,13 +45,9 @@ const RegistrationComponent = () => {
       });
 
       if (response.ok) {
-        // Успешная регистрация, можно обработать ответ, например, сохранить токен
         const data = await response.json();
         console.log('Успешная регистрация:', data);
-
-        // Дополнительные действия после успешной регистрации
       } else {
-        // Обработка ошибок
         console.error('Ошибка регистрации:', response.statusText);
       }
     } catch (error) {
@@ -88,6 +91,16 @@ const RegistrationComponent = () => {
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Подтвердите пароль:
+          <input
+            type="password"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </label>
         <br />
