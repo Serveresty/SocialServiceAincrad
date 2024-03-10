@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { useParams, useNavigate } from 'react-router-dom';
+import '../styles/audio_page.css'
 
 const AudioGETComponent = () => {
     const [responseData, setResponseData] = useState(null);
@@ -53,15 +54,16 @@ const AudioGETComponent = () => {
       }, []);
 
       return (
-        <div>
-          {/* Вывод данных от бэкенда */}
-          {responseData && (
-            <div>
-              <h2>Audiolist:</h2>
-              <pre>{JSON.stringify(responseData, null, 2)}</pre>
-            </div>
-          )}
-        </div>
+          <div className="audio">
+            {responseData && responseData.data && responseData.data.map(item => (
+              <div key={item.id} className="item">
+                <button className="button">
+                  {item.name} - {item.author}
+                </button>
+                <div className="hidden-field">{item.id}</div>
+              </div>
+            ))}
+          </div>
       );
 };
 
