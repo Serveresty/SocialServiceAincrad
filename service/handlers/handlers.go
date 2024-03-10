@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"SocialServiceAincrad/internal/requests/logout"
 	"SocialServiceAincrad/internal/requests/profile"
 	"SocialServiceAincrad/internal/requests/profile/audio"
 	signin "SocialServiceAincrad/internal/requests/sign_in"
@@ -19,6 +20,9 @@ func AllRequests(router *gin.Engine) {
 		//Регистрация
 		api.GET("sign-up", signup.SignUpGET)
 		api.POST("registration", signup.SignUpPOST)
+
+		//Выход
+		api.POST("logout", logout.Logout)
 
 		//Профиль
 		api.GET(":id", profile.ProfileGET)
