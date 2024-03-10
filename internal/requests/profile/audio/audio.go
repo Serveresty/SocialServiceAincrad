@@ -24,7 +24,7 @@ func AudioGET(c *gin.Context) {
 		return
 	}
 
-	id := c.Param("id")
+	id := c.Query("id")
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -32,6 +32,55 @@ func AudioGET(c *gin.Context) {
 	}
 
 	if claims.Subject == id {
-		profiledb.GetAudiosListById(idInt)
+		songs, err := profiledb.GetAudiosListById(idInt)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"data": songs})
+		return
+	} else {
+		privacy, err := profiledb.GetPrivacySettings(idInt)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		if privacy.Audio == "all" {
+			songs, err := profiledb.GetAudiosListById(idInt)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"data": songs})
+			return
+		}
+
+		if privacy.Audio == "friends" {
+			currentUserId, err := strconv.Atoi(claims.Subject)
+			if err != nil {
+				c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrorClaims.Error()})
+				return
+			}
+			ok, err := profiledb.IsFriendOneByOne(idInt, currentUserId)
+			if err != nil {
+				c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrNoAccessByPrivacy.Error()})
+				return
+			}
+			if !ok {
+				c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrNoAccessByPrivacy.Error()})
+				return
+			}
+			songs, err := profiledb.GetAudiosListById(idInt)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"data": songs})
+			return
+		} else {
+			c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrNoAccessByPrivacy.Error()})
+			return
+		}
 	}
 }

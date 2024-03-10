@@ -8,6 +8,7 @@ import RegistrationComponent from './pages/Registration';
 import EmptyComponent from './pages/Main';
 import ProfileComponent from './pages/Profile';
 import FriendsComponent from './pages/Friends';
+import AudioGETComponent from './pages/Audio';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/sign-in",
-    element: <AuthComponent/>,
+    element: <AuthComponent/>
   },
   {
     path: "/:id",
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/friends",
     element: <FriendsComponent/>
+  },
+  {
+    path: "/audio",
+    element: <AudioGETComponent/>
   },
 ]);
 
