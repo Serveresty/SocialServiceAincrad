@@ -20,6 +20,8 @@ func AllRequests(router *gin.Engine) {
 		api.GET(":id", profile.ProfileGET)
 		api.POST(":id", profile.ProfilePOST) // ?
 
+		api.GET("friends", profile.FriendsGET)
+
 		settings := api.Group("settings")
 		{
 			settings.GET("", profile.ProfileSettingsGeneralGET)

@@ -8,6 +8,7 @@ import (
 	"SocialServiceAincrad/models"
 	"SocialServiceAincrad/utils"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +17,7 @@ import (
 func ProfileGET(c *gin.Context) {
 	err := utils.CheckAlreadyToken(c)
 	if err == nil {
-		c.JSON(http.StatusForbidden, gin.H{"error": cerr.Unauthorized.Error()})
+		c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrUnauthorized.Error()})
 		return
 	}
 
@@ -36,7 +37,13 @@ func ProfileGET(c *gin.Context) {
 			return
 		}
 	} else {
-		privacy, err := profiledb.GetPrivacySettings(id)
+		idInt, err := strconv.Atoi(id)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		privacy, err := profiledb.GetPrivacySettings(idInt)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return

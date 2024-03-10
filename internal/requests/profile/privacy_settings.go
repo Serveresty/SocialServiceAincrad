@@ -11,7 +11,7 @@ import (
 func ProfileSettingsPrivacyGET(c *gin.Context) {
 	err := utils.CheckAlreadyToken(c)
 	if err == nil {
-		c.JSON(http.StatusForbidden, gin.H{"error": cerr.Unauthorized.Error()})
+		c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrUnauthorized.Error()})
 		return
 	}
 

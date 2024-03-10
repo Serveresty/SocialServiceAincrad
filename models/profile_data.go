@@ -1,6 +1,7 @@
 package models
 
 type ProfileData struct {
+	Id         int       `json:"id"`
 	First_name string    `json:"first_name"`
 	Last_name  string    `json:"last_name"`
 	Sex        string    `json:"sex"`

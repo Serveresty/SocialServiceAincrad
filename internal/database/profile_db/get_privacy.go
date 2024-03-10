@@ -6,7 +6,7 @@ import (
 	"context"
 )
 
-func GetPrivacySettings(id string) (*models.PrivacySettings, error) {
+func GetPrivacySettings(id int) (*models.PrivacySettings, error) {
 	var privacy models.PrivacySettings
 	row := database.DB.QueryRow(context.Background(),
 		`SELECT 

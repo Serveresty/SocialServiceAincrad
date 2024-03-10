@@ -15,7 +15,7 @@ import (
 func SignUpGET(c *gin.Context) {
 	err := utils.CheckAlreadyToken(c)
 	if err != nil {
-		c.JSON(http.StatusForbidden, gin.H{"error": cerr.AlreadyAuthorized.Error()})
+		c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrAlreadyAuthorized.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Sign-Up Page"})
@@ -25,7 +25,7 @@ func SignUpGET(c *gin.Context) {
 func SignUpPOST(c *gin.Context) {
 	err := utils.CheckAlreadyToken(c)
 	if err != nil {
-		c.JSON(http.StatusForbidden, gin.H{"error": cerr.AlreadyAuthorized.Error()})
+		c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrAlreadyAuthorized.Error()})
 		return
 	}
 

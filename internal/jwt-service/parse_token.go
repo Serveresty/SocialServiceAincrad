@@ -13,7 +13,7 @@ import (
 func ParseToken(c *gin.Context) (*models.JWTClaims, error) {
 	token := c.GetHeader("Authorization")
 	if token == "" {
-		return nil, cerr.Unauthorized
+		return nil, cerr.ErrUnauthorized
 	}
 	tokenString := strings.Split(token, " ")[1]
 

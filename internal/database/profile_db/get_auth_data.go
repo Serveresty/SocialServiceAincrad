@@ -20,7 +20,7 @@ func GetAuthData(user *models.AuthUser) (int, error) {
 	}
 
 	if ok := utils.CheckPasswordHash(user.Password, passwordHash); !ok {
-		return 0, cerr.HashError
+		return 0, cerr.ErrHashError
 	}
 
 	return id, nil
