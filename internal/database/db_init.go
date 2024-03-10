@@ -12,7 +12,7 @@ var DB *pgx.Conn
 func DB_Init(dbUrl string) error {
 	conn, err := pgx.Connect(context.Background(), dbUrl)
 	if err != nil {
-		return fmt.Errorf("Error while connecting to database: %v", err)
+		return fmt.Errorf("error while connecting to database: %v", err)
 	}
 
 	DB = conn
@@ -36,34 +36,30 @@ func CreateBaseTables() error {
 	CREATE TABLE IF NOT EXISTS "privacy_settings" (user_id bigint references users_data (user_id) on delete cascade, saved_photos int references privacy_statuses (status_id) NOT NULL, groups int references privacy_statuses (status_id) NOT NULL, audio int references privacy_statuses (status_id) NOT NULL, video int references privacy_statuses (status_id) NOT NULL, friends int references privacy_statuses (status_id) NOT NULL, posts int references privacy_statuses (status_id) NOT NULL, comments int references privacy_statuses (status_id) NOT NULL, messages int references privacy_statuses (status_id) NOT NULL);
 	
 	CREATE TABLE IF NOT EXISTS "blacklist" (user_id bigint references users_data (user_id) on delete cascade, blocked_user_id bigint references users_data (user_id) on delete cascade);
+	
+	CREATE TABLE IF NOT EXISTS "users_songs" (user_id bigint references users_data (user_id) on delete cascade, songs_list bigint[]);
+
+	CREATE TABLE IF NOT EXISTS "songs" (song_id bigserial PRIMARY KEY, name VARCHAR(55) NOT NULL, author VARCHAR(55) NOT NULL);
 	`)
 	if err != nil {
-		return fmt.Errorf("Error while creating base tables: %v", err)
+		return fmt.Errorf("error while creating base tables: %v", err)
 	}
 
-	_, err = DB.Exec(context.Background(), `
+	_, _ = DB.Exec(context.Background(), `
 	INSERT INTO "roles" ("role_name") VALUES ('user'), ('support'), ('moderator'), ('admin');
 	`)
-	if err != nil {
-	}
 
-	_, err = DB.Exec(context.Background(), `
+	_, _ = DB.Exec(context.Background(), `
 	INSERT INTO "friend_status" ("status_name") VALUES ('wait'), ('friend'), ('follower');
 	`)
-	if err != nil {
-	}
 
-	_, err = DB.Exec(context.Background(), `
+	_, _ = DB.Exec(context.Background(), `
 	INSERT INTO "front_styles" ("style_name") VALUES ('default'), ('aincrad');
 	`)
-	if err != nil {
-	}
 
-	_, err = DB.Exec(context.Background(), `
+	_, _ = DB.Exec(context.Background(), `
 	INSERT INTO "privacy_statuses" ("status_name") VALUES ('all'), ('friends'), ('nobody');
 	`)
-	if err != nil {
-	}
 
 	return nil
 }

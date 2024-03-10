@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"SocialServiceAincrad/internal/requests/profile"
+	"SocialServiceAincrad/internal/requests/profile/audio"
 	signin "SocialServiceAincrad/internal/requests/sign_in"
 	signup "SocialServiceAincrad/internal/requests/sign_up"
 
@@ -11,16 +12,23 @@ import (
 func AllRequests(router *gin.Engine) {
 	api := router.Group("")
 	{
+		//Авторизация
 		api.GET("sign-in", signin.SignInGET)
 		api.POST("login", signin.SignInPOST)
 
+		//Регистрация
 		api.GET("sign-up", signup.SignUpGET)
 		api.POST("registration", signup.SignUpPOST)
 
+		//Профиль
 		api.GET(":id", profile.ProfileGET)
 		api.POST(":id", profile.ProfilePOST) // ?
 
+		//Список друзей
 		api.GET("friends", profile.FriendsGET)
+
+		//Музыка
+		api.GET("audio", audio.AudioGET)
 
 		settings := api.Group("settings")
 		{

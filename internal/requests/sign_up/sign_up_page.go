@@ -7,6 +7,7 @@ import (
 	"SocialServiceAincrad/models"
 	"SocialServiceAincrad/utils"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -52,6 +53,22 @@ func SignUpPOST(c *gin.Context) {
 	err = profiledb.CreateUser(&user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Error while creating a new user: " + err.Error()})
+		return
+	}
+
+	// err1 := os.Mkdir("../../storages/audio_storage/"+user.Username, 0755)
+	// if err1 != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Error while creating audio storage: " + err1.Error()})
+	// 	return
+	// }
+	err2 := os.Mkdir("../../storages/photo_storage/"+user.Username, 0755)
+	if err2 != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error while creating photo storage: " + err2.Error()})
+		return
+	}
+	err3 := os.Mkdir("../../storages/video_storage/"+user.Username, 0755)
+	if err3 != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error while creating video storage: " + err3.Error()})
 		return
 	}
 

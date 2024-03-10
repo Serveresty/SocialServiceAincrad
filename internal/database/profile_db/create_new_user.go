@@ -4,6 +4,7 @@ import (
 	"SocialServiceAincrad/internal/database"
 	"SocialServiceAincrad/models"
 	"context"
+	"strconv"
 )
 
 func CreateUser(user *models.User) error {
@@ -20,12 +21,20 @@ func CreateUser(user *models.User) error {
 		return err
 	}
 
+	id := strconv.Itoa(user.Id)
+	user.Username = id
+
 	_, err = database.DB.Exec(context.Background(), `UPDATE "users_data" SET username=$1 WHERE user_id = $1`, user.Id)
 	if err != nil {
 		return err
 	}
 
 	_, err = database.DB.Exec(context.Background(), `INSERT INTO "users_roles" (user_id, role_id) VALUES($1, $2)`, user.Id, 1)
+	if err != nil {
+		return err
+	}
+
+	_, err = database.DB.Exec(context.Background(), `INSERT INTO "users_songs" (user_id) VALUES($1)`, user.Id)
 	if err != nil {
 		return err
 	}
