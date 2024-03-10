@@ -4,6 +4,7 @@ import (
 	cerr "SocialServiceAincrad/custom_errors"
 	profiledb "SocialServiceAincrad/internal/database/profile_db"
 	jwtservice "SocialServiceAincrad/internal/jwt-service"
+	"SocialServiceAincrad/models"
 	"SocialServiceAincrad/utils"
 	"net/http"
 	"strconv"
@@ -13,8 +14,8 @@ import (
 
 func FriendsGET(c *gin.Context) {
 	err := utils.CheckAlreadyToken(c)
-	if err != nil {
-		c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrAlreadyAuthorized.Error()})
+	if err == nil {
+		c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrUnauthorized.Error()})
 		return
 	}
 
@@ -31,17 +32,21 @@ func FriendsGET(c *gin.Context) {
 	}
 
 	userID := c.Query("id")
-	idInt, err := strconv.Atoi(userID)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
 	section := c.Query("section")
 	if userID == "" {
-		showBySection(c, section, currentUserId)
+		friendData, err := showBySection(c, section, currentUserId)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"data": friendData})
 		return
 	} else {
+		idInt, err := strconv.Atoi(userID)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
 		privacy, err := profiledb.GetPrivacySettings(idInt)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -49,9 +54,15 @@ func FriendsGET(c *gin.Context) {
 		}
 
 		if privacy.Friends == "all" {
-			showBySection(c, section, idInt)
+			friendData, err := showBySection(c, section, idInt)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"data": friendData})
 			return
-		} else if privacy.Friends == "friends" {
+		}
+		if privacy.Friends == "friends" {
 			ok, err := profiledb.IsFriendOneByOne(idInt, currentUserId)
 			if err != nil {
 				c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrNoAccessByPrivacy.Error()})
@@ -61,7 +72,12 @@ func FriendsGET(c *gin.Context) {
 				c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrNoAccessByPrivacy.Error()})
 				return
 			}
-			showBySection(c, section, idInt)
+			friendData, err := showBySection(c, section, idInt)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"data": friendData})
 			return
 		} else {
 			c.JSON(http.StatusForbidden, gin.H{"error": cerr.ErrNoAccessByPrivacy.Error()})
@@ -70,23 +86,28 @@ func FriendsGET(c *gin.Context) {
 	}
 }
 
-func showBySection(c *gin.Context, section string, id int) {
+func showBySection(c *gin.Context, section string, id int) ([]models.Friends, error) {
 	if section == "all" || section == "friends" {
 		friends, err := profiledb.GetFriends(id)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			return
+			return nil, err
 		}
-		c.JSON(http.StatusOK, gin.H{"data": friends})
-		return
+		return friends, nil
 	}
 	if section == "followers" {
 		followers, err := profiledb.GetFollowers(id)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			return
+			return nil, err
 		}
-		c.JSON(http.StatusOK, gin.H{"data": followers})
-		return
+		return followers, nil
 	}
+	if section == "" {
+		friends, err := profiledb.GetFriends(id)
+		if err != nil {
+			return nil, err
+		}
+		return friends, nil
+	}
+	return nil, cerr.ErrBadRequest
 }

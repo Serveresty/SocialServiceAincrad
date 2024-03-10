@@ -98,9 +98,14 @@ func IsFriendOneByOne(firstId int, secondId int) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	err = row4.Scan(&status)
-	if err != nil {
-		return false, err
+	defer row4.Close()
+
+	if row4.Next() {
+		err = row4.Scan(&status)
+		if err != nil {
+			return false, err
+		}
+		return true, nil
 	}
-	return true, nil
+	return false, nil
 }

@@ -7,6 +7,7 @@ import AuthComponent from './pages/Auth';
 import RegistrationComponent from './pages/Registration';
 import EmptyComponent from './pages/Main';
 import ProfileComponent from './pages/Profile';
+import FriendsComponent from './pages/Friends';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/:id",
     element: <ProfileComponent/>
+  },
+  {
+    path: "/friends",
+    element: <FriendsComponent/>
   },
 ]);
 
