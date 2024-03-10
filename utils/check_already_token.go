@@ -10,7 +10,7 @@ func CheckAlreadyToken(c *gin.Context) error {
 	token := c.GetHeader("Authorization")
 
 	if token != "" {
-		return cerr.AlreadyAuthorized
+		return cerr.ErrAlreadyAuthorized
 	}
 
 	return nil
