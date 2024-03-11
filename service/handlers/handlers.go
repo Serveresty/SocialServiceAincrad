@@ -33,6 +33,7 @@ func AllRequests(router *gin.Engine) {
 
 		//Музыка
 		api.GET("audio", audio.AudioGET)
+		api.GET("audio/:id", audio.GetAudioById)
 
 		settings := api.Group("settings")
 		{
