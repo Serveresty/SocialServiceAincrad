@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const AudioGETComponent = () => {
-  const [responseData, setResponseData] = useState(null);
-  const [isPlaying, setIsPlaying] = useState([]);
-  const audioRef = useRef(new Audio());
-  const [currentAudio, setCurrentAudio] = useState(null);
-  const [currentAudio1, setCurrentAudio1] = useState(null);
-
   const cookies = new Cookies();
   const history = useNavigate();
+  const [responseData, setResponseData] = useState([]);
+  const [audioElement, setAudioElement] = useState(null);
+  const [currentAudioUrl, setCurrentAudioUrl] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentId, setCurrentId] = useState(0);
 
   useEffect(() => {
     const authToken = cookies.get('authToken');
@@ -19,13 +18,6 @@ const AudioGETComponent = () => {
       history('/sign-in');
     }
   }, [cookies, history]);
-
-  const handleUserGesture = () => {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioContext.state === 'suspended') {
-      audioContext.resume();
-    }
-  };
 
   useEffect(() => {
     const fetchAudioData = async () => {
@@ -40,100 +32,80 @@ const AudioGETComponent = () => {
           return;
         }
 
-        const config = {
+        const requestOptions = {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: authToken,
+            Authorization: `${authToken}`,
           },
         };
 
-        const response = await axios.get(backendUrl, config);
-        setResponseData(response.data);
-
-        if (response.data.data.length > 0) {
-          preloadAudio(response.data.data);
-          setIsPlaying(Array(response.data.data.length).fill(false));
-        }
+        const response = await axios.get(backendUrl, requestOptions);
+        setResponseData(response.data.data);
       } catch (error) {
         console.error('Error fetching audio data:', error);
       }
     };
 
     fetchAudioData();
-  }, [cookies]);
+  }, [cookies, currentId]);
 
-  const preloadAudio = (audioList) => {
-    audioList.forEach(audio => {
-      const audioElement = audioRef.current;
-
-      const source = document.createElement('source');
-      source.src = `http://localhost:8080/audio/${audio.id}.mp3`;
-      source.type = 'audio/mp3';
-
-      audioElement.appendChild(source);
-    });
-  };
-
-  const handleAudioButtonClick = async (id) => {
-    const audioElement = audioRef.current;
-    const index = responseData.data.findIndex(audio => audio.id === id);
-
-    if (audioElement) {
-      if (isPlaying[index]) {
-        audioElement.pause();
-      } else {
-        if (currentAudio === `http://localhost:8080/audio/${id}`) {
-          // Если выбрана та же песня, возобновляем воспроизведение
-          audioElement.play();
-        } else {
-          // В противном случае, устанавливаем новую песню
-          audioElement.src = `http://localhost:8080/audio/${id}`;
-          audioElement.play();
-          setCurrentAudio1(responseData.data.find(audio => audio.id === id));
-        }
+  const handlePlayAudio = async (id) => {
+    try {
+      const authToken = cookies.get('authToken');
+      if (!authToken) {
+        console.error('No authToken found in Cookie');
+        return;
       }
 
-      setCurrentAudio(`http://localhost:8080/audio/${id}`);
-      setIsPlaying(prevState => {
-        const newState = [...prevState];
-        newState.fill(false);
-        newState[index] = !prevState[index];
-        return newState;
-      });
-    }
-  };
+      const backendUrl = `http://localhost:8080/audio/${id}`;
+      const requestOptions = {
+        headers: {
+          Authorization: `${authToken}`,
+        },
+        responseType: 'blob',
+      };
 
-  const handlePauseButtonClick = async () => {
-    const audioElement = audioRef.current;
+      const response = await axios.get(backendUrl, requestOptions);
+      const audioBlob = new Blob([response.data], { type: 'audio/mp3' });
+      const audioUrl = URL.createObjectURL(audioBlob);
 
-    if (audioElement && !audioElement.paused) {
-      audioElement.pause();
-      setIsPlaying(Array(responseData.data.length).fill(false));
+      if (currentId !== id || currentId == 0) {
+        if (audioElement !== null) {
+          const currentTime = audioElement.currentTime;
+          audioElement.pause();
+          audioElement.currentTime = 0;
+          audioElement.src = audioUrl;
+          audioElement.play();
+          setCurrentAudioUrl(audioUrl);
+          setCurrentId(id);
+          setIsPlaying(true);
+        } else {
+          const newAudioElement = new Audio(audioUrl);
+          newAudioElement.play();
+          setAudioElement(newAudioElement);
+          setCurrentAudioUrl(audioUrl);
+          setCurrentId(id);
+          setIsPlaying(true);
+        }
+      } else {
+        if (isPlaying) {
+          audioElement.pause();
+        } else {
+          audioElement.play();
+        }
+        setIsPlaying(!isPlaying);
+      }
+    } catch (error) {
+      console.error('Error playing audio:', error);
     }
   };
 
   return (
     <div>
-      {audioRef.current && (
-        <div>
-          Now Playing:
-          {currentAudio && (
-            <label> {currentAudio1.author} - {currentAudio1.name}</label>
-          )}
-          <p/>
-          <button onClick={handlePauseButtonClick}>
-            Pause
-          </button>
-        </div>
-      )}
-      
-      {responseData && responseData.data && responseData.data.map(audio => (
-        <div key={audio.id}>
-          <p>{audio.name} - {audio.author}</p>
-          <button onClick={() => handleAudioButtonClick(audio.id)}>
-            {isPlaying[audio.id] ? 'Pause' : 'Play'}
-          </button>
-        </div>
+      {Array.isArray(responseData) && responseData.map(audio => (
+        <button key={audio.id} onClick={() => handlePlayAudio(audio.id)}>
+          {`${audio.name} - ${audio.author}`}
+        </button>
       ))}
     </div>
   );
