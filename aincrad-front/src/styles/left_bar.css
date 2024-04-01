@@ -1,0 +1,16 @@
+.left-bar-container {
+    width: 200px;
+    display:inline-block;
+    justify-content: left;
+    align-items: center;
+}
+
+#left-bar-nav {
+    list-style-type: none;
+    padding: 0;
+}
+
+#left-bar-nav li {
+    margin-bottom: 10px;
+    vertical-align: middle;
+}

@@ -9,6 +9,8 @@ import EmptyComponent from './pages/Main';
 import ProfileComponent from './pages/Profile';
 import FriendsComponent from './pages/Friends';
 import AudioGETComponent from './pages/Audio';
+import Header from './components/Header';
+import LeftBar from './components/LeftBar';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,8 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div>
+        <Header />
+        <LeftBar />
         <RouterProvider router={router} />
     </div>
   );
