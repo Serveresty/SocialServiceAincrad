@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/audio.css';
 
 const AudioGETComponent = () => {
   const cookies = new Cookies();
@@ -101,12 +102,15 @@ const AudioGETComponent = () => {
   };
 
   return (
-    <div>
+    <div class='audio-container'>
+      <ul id="audios">
       {Array.isArray(responseData) && responseData.map(audio => (
-        <button key={audio.id} onClick={() => handlePlayAudio(audio.id)}>
+        <li><button key={audio.id} onClick={() => handlePlayAudio(audio.id)}>
           {`${audio.name} - ${audio.author}`}
         </button>
+        </li>
       ))}
+      </ul>
     </div>
   );
 };
