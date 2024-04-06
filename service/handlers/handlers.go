@@ -4,6 +4,7 @@ import (
 	"SocialServiceAincrad/internal/requests/logout"
 	"SocialServiceAincrad/internal/requests/profile"
 	"SocialServiceAincrad/internal/requests/profile/audio"
+	"SocialServiceAincrad/internal/requests/profile/video"
 	signin "SocialServiceAincrad/internal/requests/sign_in"
 	signup "SocialServiceAincrad/internal/requests/sign_up"
 
@@ -34,6 +35,10 @@ func AllRequests(router *gin.Engine) {
 		//Музыка
 		api.GET("audio", audio.AudioGET)
 		api.GET("audio/:id", audio.GetAudioById)
+
+		//Видео
+		api.GET("video", video.VideoGET)
+		api.GET("video/:id", video.VideoCurrentUserGET)
 
 		settings := api.Group("settings")
 		{
