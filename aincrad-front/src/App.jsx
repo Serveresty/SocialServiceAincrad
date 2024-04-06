@@ -43,8 +43,10 @@ function App() {
   return (
     <div>
         <Header />
+        <div class="main-container">
         <LeftBar />
         <RouterProvider router={router} />
+        </div>
     </div>
   );
 };

@@ -1,3 +1,9 @@
+.main-container {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 5vh;
+}
+
 /* #root {
   max-width: 1280px;
   margin: 0 auto;
