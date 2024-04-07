@@ -11,6 +11,7 @@ import FriendsComponent from './pages/Friends';
 import AudioGETComponent from './pages/Audio';
 import Header from './components/Header';
 import LeftBar from './components/LeftBar';
+import MessageComponent from './pages/Message';
 
 const router = createBrowserRouter([
   {
@@ -37,13 +38,17 @@ const router = createBrowserRouter([
     path: "/audio",
     element: <AudioGETComponent/>
   },
+  {
+    path: "/messages",
+    element: <MessageComponent />
+  }
 ]);
 
 function App() {
   return (
     <div>
         <Header />
-        <div class="main-container">
+        <div className="main-container">
         <LeftBar />
         <RouterProvider router={router} />
         </div>

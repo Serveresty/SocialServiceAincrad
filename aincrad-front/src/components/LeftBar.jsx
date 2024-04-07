@@ -3,7 +3,7 @@ import '../styles/left_bar.css';
 
 const LeftBar = () => {
     return (
-        <div class="left-bar-container">
+        <div className="left-bar-container">
             <ul id="left-bar-nav">
                 <li><a href="/profile">Profile</a></li>
                 <li><a href="/news">News</a></li>

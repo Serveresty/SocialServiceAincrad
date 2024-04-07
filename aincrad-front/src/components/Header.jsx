@@ -5,7 +5,7 @@ import '../styles/header.css';
 const Header = () => {
     return (
         <header>
-            <div class="header-container">
+            <div className="header-container">
                 <ul id="header-nav">
                     <li><button>Music</button></li>
                     <li><a href="/"><img src={logo} height="50" width="200"></img></a></li>
