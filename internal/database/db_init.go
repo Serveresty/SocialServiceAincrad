@@ -40,6 +40,8 @@ func CreateBaseTables() error {
 	CREATE TABLE IF NOT EXISTS "users_songs" (user_id bigint references users_data (user_id) on delete cascade, songs_list bigint[]);
 
 	CREATE TABLE IF NOT EXISTS "songs" (song_id bigserial PRIMARY KEY, name VARCHAR(55) NOT NULL, author VARCHAR(55) NOT NULL);
+
+	CREATE TABLE IF NOT EXISTS "messages" (id bigserial PRIMARY KEY, sender_id bigint references users_data (user_id) on delete cascade, receiver_id bigint references users_data (user_id) on delete cascade, message VARCHAR(255), created_at TIMESTAMP);
 	`)
 	if err != nil {
 		return fmt.Errorf("error while creating base tables: %v", err)
