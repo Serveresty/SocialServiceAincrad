@@ -102,7 +102,7 @@ const AudioGETComponent = () => {
   };
 
   return (
-    <div class='audio-container'>
+    <div className='audio-container'>
       <ul id="audios">
       {Array.isArray(responseData) && responseData.map(audio => (
         <li><button key={audio.id} onClick={() => handlePlayAudio(audio.id)}>
