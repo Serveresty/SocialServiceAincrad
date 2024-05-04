@@ -1,10 +1,12 @@
 package messages
 
 import (
+	messagesdb "SocialServiceAincrad/internal/database/messages_db"
 	jwtservice "SocialServiceAincrad/internal/jwt-service"
 	"SocialServiceAincrad/models"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -14,49 +16,28 @@ import (
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
-		return true // Разрешаем любые origin
+		return true
 	},
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
 
-// type Clients struct {
-// 	mx      sync.Mutex
-// 	clients map[string]*websocket.Conn
-// }
-
-// var clients = &Clients{clients: make(map[string]*websocket.Conn)}
 var clients = make(map[string]*websocket.Conn)
 
 func ChatGET(c *gin.Context) {
-	// fmt.Println("TY312312312312")
-	// err := utils.CheckAlreadyToken(c)
-	// if err == nil {
-	// 	c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
-	// 	return
-	// }
-	// fmt.Println("TYT1")
-	// claims, err := jwtservice.ParseToken(c)
-	// if err != nil {
-	// 	c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
-	// 	return
-	// }
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
-		//c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	defer conn.Close()
 
 	var msg map[string]string
 	if err := conn.ReadJSON(&msg); err != nil {
-		//c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	claims, err := jwtservice.ParseTokenString(msg["authToken"])
 	if err != nil {
-		//c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -67,24 +48,21 @@ func ChatGET(c *gin.Context) {
 		//c.JSON(http.StatusOK, gin.H{})
 		return
 	}
-	// _, err = messagesdb.GetMessages(claims.Subject, id)
-	// if err != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-	// 	return
-	// }
-	//c.JSON(http.StatusFound, gin.H{"message": msgs})
+	msgg, err := messagesdb.GetMessages(claims.Subject, id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if err := conn.WriteJSON(msgg); err != nil {
+		return
+	}
 
 	clients[claims.Subject] = conn
-	// clients.mx.Lock()
-	// clients.clients[claims.Subject] = conn
-	// clients.mx.Unlock()
-	fmt.Println("TYT1")
-	fmt.Println(clients)
+
 	for {
-		// Пример чтения данных от клиента
 		messageType, p, err := conn.ReadMessage()
 		if err != nil {
-			fmt.Println("TYT2")
+			log.Println("error while read message")
 			return
 		}
 
@@ -105,14 +83,18 @@ func ChatGET(c *gin.Context) {
 		if err != nil {
 			continue
 		}
+		err = messagesdb.CreateMessage(msg)
+		if err != nil {
+			log.Println("error save in database message " + err.Error())
+		}
 		if client, ok := clients[id]; ok {
 			if err := client.WriteMessage(messageType, p); err != nil {
-				fmt.Println("TYT3")
+				log.Println("receiver not online")
 			}
 		}
 		if client, ok := clients[claims.Subject]; ok {
 			if err := client.WriteMessage(messageType, p); err != nil {
-				fmt.Println("TYT3")
+				log.Println("sender not online")
 			}
 		}
 	}
