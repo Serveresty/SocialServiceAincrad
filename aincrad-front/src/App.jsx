@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import { createBrowserRouter, RouterProvider, Route, Link } from 'react-router-dom';
 import './App.css'
 import AuthComponent from './pages/Auth';
@@ -11,7 +8,7 @@ import FriendsComponent from './pages/Friends';
 import AudioGETComponent from './pages/Audio';
 import Header from './components/Header';
 import LeftBar from './components/LeftBar';
-import MessageComponent from './pages/Message';
+import Chat from './pages/Chat';
 
 const router = createBrowserRouter([
   {
@@ -40,8 +37,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/messages",
-    element: <MessageComponent />
-  }
+    element: <Chat />
+  },
 ]);
 
 function App() {
