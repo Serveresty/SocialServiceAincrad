@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
+import { Filecontext } from '../contexts/Filecontext';
 
 const AuthComponent = () => {
   const cookies = new Cookies();
@@ -15,6 +16,7 @@ const AuthComponent = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setLogID } = useContext(Filecontext)
 
   const handleLogin = async () => {
     try {
@@ -31,6 +33,7 @@ const AuthComponent = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Успешная авторизация:', data.token);
+        setLogID(data.id)
 
         cookies.set('authToken', data.token, { path: '/'});
         history('/');

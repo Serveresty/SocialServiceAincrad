@@ -1,4 +1,6 @@
-import { createBrowserRouter, RouterProvider, Route, Link } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { useState } from 'react'
+import { Filecontext } from './contexts/Filecontext';
 import './App.css'
 import AuthComponent from './pages/Auth';
 import RegistrationComponent from './pages/Registration';
@@ -10,45 +12,25 @@ import Header from './components/Header';
 import LeftBar from './components/LeftBar';
 import Chat from './pages/Chat';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <EmptyComponent/>
-  },
-  {
-    path: "/sign-up",
-    element: <RegistrationComponent/>
-  },
-  {
-    path: "/sign-in",
-    element: <AuthComponent/>
-  },
-  {
-    path: "/:id",
-    element: <ProfileComponent/>
-  },
-  {
-    path: "/friends",
-    element: <FriendsComponent/>
-  },
-  {
-    path: "/audio",
-    element: <AudioGETComponent/>
-  },
-  {
-    path: "/messages",
-    element: <Chat />
-  },
-]);
-
 function App() {
+  const [logID, setLogID] = useState("")
   return (
     <div>
+      <Filecontext.Provider value={{ logID, setLogID }}>
         <Header />
         <div className="main-container">
         <LeftBar />
-        <RouterProvider router={router} />
+        <Routes>
+          <Route path="/" element={<EmptyComponent />}/>
+          <Route path="/sign-up" element={<RegistrationComponent />} />
+          <Route path="/sign-in" element={<AuthComponent />} />
+          <Route path="/:id" element={<ProfileComponent />} />
+          <Route path="/friends" element={<FriendsComponent />} />
+          <Route path="/audio" element={<AudioGETComponent />} />
+          <Route path="/messages" element={<Chat />} />
+        </Routes>
         </div>
+      </Filecontext.Provider>
     </div>
   );
 };
