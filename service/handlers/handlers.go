@@ -16,33 +16,35 @@ func AllRequests(router *gin.Engine) {
 	api := router.Group("")
 	{
 		//Авторизация
-		api.GET("sign-in", signin.SignInGET)
-		api.POST("login", signin.SignInPOST)
+		api.GET("sign-in", signin.SignInGET) //Did it
+		api.POST("login", signin.SignInPOST) //Did it
 
 		//Регистрация
-		api.GET("sign-up", signup.SignUpGET)
-		api.POST("registration", signup.SignUpPOST)
+		api.GET("sign-up", signup.SignUpGET)        //Did it
+		api.POST("registration", signup.SignUpPOST) //Did it
 
 		//Выход
-		api.POST("logout", logout.Logout)
+		api.GET("logout", logout.Logout) //Did it
 
 		//Профиль
-		api.GET(":id", profile.ProfileGET)
+		api.GET(":id", profile.ProfileGET)   //Did it
 		api.POST(":id", profile.ProfilePOST) // ?
 
 		//Список друзей
-		api.GET("friends", profile.FriendsGET)
+		api.GET("friends", profile.FriendsGET) //Did it
 
 		//Музыка
-		api.GET("audio", audio.AudioGET)
-		api.GET("audio/:id", audio.GetAudioById)
+		api.GET("audio", audio.AudioGET)         //Did it not full
+		api.GET("audio/:id", audio.GetAudioById) //Did it
+		api.POST("audio/upload")
 
 		//Видео
 		api.GET("video", video.VideoGET)
 		api.GET("video/:id", video.VideoCurrentUserGET)
+		api.POST("video/upload")
 
 		//Чаты
-		api.GET("messages", messages.ChatGET)
+		api.GET("messages", messages.ChatGET) //Did it
 
 		settings := api.Group("settings")
 		{
