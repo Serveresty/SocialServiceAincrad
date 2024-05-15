@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const Chat = () => {
     const cookies = new Cookies();
     const [messages, setMessages] = useState([]);
     const [ws, setWs] = useState(null);
     const [message, setMessage] = useState('');
+
+    //////////////////////////////
+    const cookies1 = new Cookies();
+    const history = useNavigate();
+  
+    useEffect(() => {
+        const authToken = cookies1.get('authToken');
+        if (!authToken) {
+        history('/sign-in');
+        }
+    }, [cookies1, history]);
+    //////////////////////////////
  
     useEffect(() => {
         const authToken = cookies.get('authToken');
