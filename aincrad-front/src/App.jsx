@@ -11,6 +11,7 @@ import AudioGETComponent from './pages/Audio';
 import Header from './components/Header';
 import LeftBar from './components/LeftBar';
 import Chat from './pages/Chat';
+import LogoutComponent from './pages/Logout';
 
 function App() {
   const [logID, setLogID] = useState("")
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<EmptyComponent />}/>
           <Route path="/sign-up" element={<RegistrationComponent />} />
           <Route path="/sign-in" element={<AuthComponent />} />
+          <Route path="/logout" element={<LogoutComponent />} />
           <Route path="/:id" element={<ProfileComponent />} />
           <Route path="/friends" element={<FriendsComponent />} />
           <Route path="/audio" element={<AudioGETComponent />} />
