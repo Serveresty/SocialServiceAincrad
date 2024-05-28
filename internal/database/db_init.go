@@ -41,6 +41,10 @@ func CreateBaseTables() error {
 
 	CREATE TABLE IF NOT EXISTS "songs" (song_id bigserial PRIMARY KEY, name VARCHAR(55) NOT NULL, author VARCHAR(55) NOT NULL, filename VARCHAR(55) UNIQUE NOT NULL, hash VARCHAR(70) UNIQUE NOT NULL);
 
+	CREATE TABLE IF NOT EXISTS "users_videos" (user_id bigint references users_data (user_id) on delete cascade, videos_list bigint[]);
+
+	CREATE TABLE IF NOT EXISTS "videos" (video_id bigserial PRIMARY KEY, title VARCHAR(55) NOT NULL, description VARCHAR(255), created_at TIMESTAMP, views int);
+
 	CREATE TABLE IF NOT EXISTS "messages" (id bigserial PRIMARY KEY, sender_id bigint references users_data (user_id) on delete cascade, receiver_id bigint references users_data (user_id) on delete cascade, message VARCHAR(255), created_at TIMESTAMP);
 	`)
 	if err != nil {
