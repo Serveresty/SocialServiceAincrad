@@ -36,12 +36,16 @@ func AllRequests(router *gin.Engine) {
 		//Музыка
 		api.GET("audio", audio.AudioGET)         //Did it not full
 		api.GET("audio/:id", audio.GetAudioById) //Did it
-		api.POST("audio/upload")
+		api.POST("audio/upload", audio.UploadAudioPOST)
+		api.POST("audio/to-favorite", audio.AudioToFavoritePOST)
+		api.POST("audio/delete-favorite", audio.AudioDeleteFavoritePOST)
 
 		//Видео
 		api.GET("video", video.VideoGET)
 		api.GET("video/:id", video.VideoCurrentUserGET)
 		api.POST("video/upload")
+		api.POST("video/to-favorite")
+		api.POST("video/delete-favorite")
 
 		//Чаты
 		api.GET("messages", messages.ChatGET) //Did it
