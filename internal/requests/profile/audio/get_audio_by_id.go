@@ -1,7 +1,7 @@
 package audio
 
 import (
-	"fmt"
+	profiledb "SocialServiceAincrad/internal/database/profile_db"
 	"net/http"
 	"os"
 	"strconv"
@@ -12,7 +12,13 @@ import (
 func GetAudioById(c *gin.Context) {
 	id := c.Param("id")
 
-	filePath := "../../storages/audio_storage/" + id + ".mp3"
+	audio, err := profiledb.GetAudioById(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "not found"})
+		return
+	}
+
+	filePath := "../../storages/audio_storage/" + audio.Filename + ".mp3"
 	info, err := os.Stat(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -27,8 +33,7 @@ func GetAudioById(c *gin.Context) {
 
 	c.Header("Content-Type", "audio/mp3")
 	c.Header("Content-Length", dataSize)
-	c.Header("Content-Disposition", "inline; filename="+id+".mp3")
+	c.Header("Content-Disposition", "inline; filename="+audio.Filename+".mp3")
 
-	fmt.Println(dataSize)
 	c.File(filePath)
 }

@@ -69,6 +69,10 @@ func UploadAudioPOST(c *gin.Context) {
 		return
 	}
 
-	profiledb.SetAudioToFavorite(claims.Subject, songID)
+	err = profiledb.SetAudioToFavorite(claims.Subject, songID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"message": "upload success"})
 }

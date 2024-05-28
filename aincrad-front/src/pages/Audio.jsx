@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/audio.css';
+import PopupWithInputs from './UploadAudio';
 
 const AudioGETComponent = () => {
   const cookies = new Cookies();
@@ -69,6 +70,7 @@ const AudioGETComponent = () => {
       const response = await axios.get(backendUrl, requestOptions);
       const audioBlob = new Blob([response.data], { type: 'audio/mp3' });
       const audioUrl = URL.createObjectURL(audioBlob);
+      console.log(response.data)
 
       if (currentId !== id || currentId == 0) {
         if (audioElement !== null) {
@@ -102,15 +104,18 @@ const AudioGETComponent = () => {
   };
 
   return (
-    <div className='audio-container'>
-      <ul id="audios">
-      {Array.isArray(responseData) && responseData.map(audio => (
-        <li><button key={audio.id} onClick={() => handlePlayAudio(audio.id)}>
-          {`${audio.name} - ${audio.author}`}
-        </button>
-        </li>
-      ))}
-      </ul>
+    <div>
+      <div><PopupWithInputs/></div>
+      <div className='audio-container'>
+        <ul id="audios">
+        {Array.isArray(responseData) && responseData.map(audio => (
+          <li key={audio.id}><button onClick={() => handlePlayAudio(audio.id)}>
+            {`${audio.name} - ${audio.author}`}
+          </button>
+          </li>
+        ))}
+        </ul>
+      </div>
     </div>
   );
 };
