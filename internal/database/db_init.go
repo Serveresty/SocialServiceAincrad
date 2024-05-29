@@ -3,11 +3,16 @@ package database
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/jackc/pgx/v4"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var DB *pgx.Conn
+var Mongo *mongo.Client
 
 func DB_Init(dbUrl string) error {
 	conn, err := pgx.Connect(context.Background(), dbUrl)
@@ -16,6 +21,16 @@ func DB_Init(dbUrl string) error {
 	}
 
 	DB = conn
+	return nil
+}
+
+func Mongo_Init(mongoUrl string, ctx context.Context) error {
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoUrl))
+	if err != nil {
+		return fmt.Errorf("error while connecting to mongodb: %v", err)
+	}
+
+	Mongo = client
 	return nil
 }
 
@@ -67,5 +82,20 @@ func CreateBaseTables() error {
 	INSERT INTO "privacy_statuses" ("status_name") VALUES ('all'), ('friends'), ('nobody');
 	`)
 
+	return nil
+}
+
+func CreateDBAndCollectionMongo() error {
+	db := Mongo.Database("social")
+	collName := "videos"
+	collections, err := db.ListCollectionNames(context.Background(), bson.M{"name": collName})
+	if err != nil {
+		return err
+	}
+	if len(collections) == 0 {
+		log.Printf("Collection %s does not exist. Creating...\n", collName)
+		return db.CreateCollection(context.Background(), collName)
+	}
+	log.Printf("Collection %s already exists.\n", collName)
 	return nil
 }

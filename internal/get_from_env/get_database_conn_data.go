@@ -18,3 +18,10 @@ func GetDatabaseConData() string {
 
 	return dbUrl
 }
+
+func GetMongoDBConData() string {
+	host := configs.GetEnv("MONGO_HOST")
+	port := configs.GetEnv("MONGO_PORT")
+	mongoUrl := "mongodb://" + host + ":" + port
+	return mongoUrl
+}

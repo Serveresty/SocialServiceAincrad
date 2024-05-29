@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -33,7 +34,17 @@ func run() error {
 	}
 	defer database.DB.Close(context.Background())
 
+	err = connectToMongoDB()
+	if err != nil {
+		return err
+	}
+
 	err = database.CreateBaseTables()
+	if err != nil {
+		return err
+	}
+
+	err = database.CreateDBAndCollectionMongo()
 	if err != nil {
 		return err
 	}
@@ -57,6 +68,24 @@ func connectToDatabase() error {
 	err = database.DB.Ping(context.Background())
 	if err != nil {
 		return fmt.Errorf("error while Ping db connection: %v", err)
+	}
+
+	return nil
+}
+
+func connectToMongoDB() error {
+	mongoUrl := getfromenv.GetMongoDBConData()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	err := database.Mongo_Init(mongoUrl, ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = database.Mongo.Ping(ctx, nil)
+	if err != nil {
+		return fmt.Errorf("error while Ping mongodb connection: %v", err)
 	}
 
 	return nil
