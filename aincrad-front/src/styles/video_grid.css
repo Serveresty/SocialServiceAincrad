@@ -1,0 +1,41 @@
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.video-preview {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+.video-preview img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.video-info h3 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+.video-info p {
+    margin: 5px 0 0;
+    font-size: 14px;
+}

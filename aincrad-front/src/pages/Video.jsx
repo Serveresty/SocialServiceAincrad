@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import VideoPreview from './VideoPreview'
 import UploadVideo from './UploadVideo';
-// import './VideoGrid.css';
+import '../styles/video_grid.css';
 
 const VideoGrid = () => {
     const cookies = new Cookies();
@@ -46,17 +46,26 @@ const VideoGrid = () => {
         fetchVideos();
     }, [id]);
 
+    const handleVideoClick = (userID, videoID) => {
+        history(`/video/${userID}/${videoID}`);
+    };
+
     return (
         <div>
             <div><UploadVideo /></div>
             <div className="video-grid">
                 {Array.isArray(videos) && videos.map(video => (
+                    <button
+                        key={video.id}
+                        onClick={() => handleVideoClick(id, video.id)}
+                    >
                     <VideoPreview 
                         key={video.id} 
                         title={video.title} 
                         created={video.created_at} 
                         preview={video.preview} 
                     />
+                    </button>
                 ))}
             </div>
         </div>
