@@ -39,6 +39,11 @@ func CreateUser(user *models.User) error {
 		return err
 	}
 
+	_, err = database.DB.Exec(context.Background(), `INSERT INTO "users_videos" (user_id) VALUES($1)`, user.Id)
+	if err != nil {
+		return err
+	}
+
 	err = generateSettings(user.Id)
 	if err != nil {
 		return err

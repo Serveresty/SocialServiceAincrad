@@ -12,6 +12,7 @@ import Header from './components/Header';
 import LeftBar from './components/LeftBar';
 import Chat from './pages/Chat';
 import LogoutComponent from './pages/Logout';
+import VideoGrid from './pages/Video';
 
 function App() {
   const [logID, setLogID] = useState("")
@@ -30,6 +31,7 @@ function App() {
           <Route path="/friends" element={<FriendsComponent />} />
           <Route path="/audio" element={<AudioGETComponent />} />
           <Route path="/messages" element={<Chat />} />
+          <Route path="/video/:id" element={<VideoGrid />} />
         </Routes>
         </div>
       </Filecontext.Provider>

@@ -44,7 +44,7 @@ func AllRequests(router *gin.Engine) {
 		api.GET("video", video.VideoGET)
 		api.GET("video/:id", video.VideoCurrentUserGET)
 		api.GET("video/:id/:vid")
-		api.POST("video/upload")
+		api.POST("video/upload", video.UploadVideoPOST)
 		api.POST("video/to-favorite")
 		api.POST("video/delete-favorite")
 

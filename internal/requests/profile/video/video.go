@@ -5,6 +5,7 @@ import (
 	profiledb "SocialServiceAincrad/internal/database/profile_db"
 	jwtservice "SocialServiceAincrad/internal/jwt-service"
 	"SocialServiceAincrad/utils"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -37,6 +38,7 @@ func VideoCurrentUserGET(c *gin.Context) {
 	if claims.Subject == id {
 		videos, err := profiledb.GetVideosListById(idInt)
 		if err != nil {
+			fmt.Println(err.Error())
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}

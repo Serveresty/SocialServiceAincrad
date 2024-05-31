@@ -47,6 +47,7 @@ const RegistrationComponent = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Успешная регистрация:', data);
+        history('/sign-in');
       } else {
         console.error('Ошибка регистрации:', response.statusText);
       }

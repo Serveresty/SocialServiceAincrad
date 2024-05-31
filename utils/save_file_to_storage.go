@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SaveFileToStorage(c *gin.Context, filename string, file *multipart.FileHeader) error {
-	err := c.SaveUploadedFile(file, "../../storages/audio_storage/"+filename+".mp3")
+func SaveFileToStorage(c *gin.Context, filename string, storageType string, fileType string, file *multipart.FileHeader) error {
+	err := c.SaveUploadedFile(file, "../../storages/"+storageType+"/"+filename+fileType)
 	if err != nil {
 		return err
 	}

@@ -63,7 +63,9 @@ func UploadAudioPOST(c *gin.Context) {
 		break
 	}
 
-	err = utils.SaveFileToStorage(c, filename, file)
+	storageType := "audio_storage"
+	fileType := ".mp3"
+	err = utils.SaveFileToStorage(c, filename, storageType, fileType, file)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
