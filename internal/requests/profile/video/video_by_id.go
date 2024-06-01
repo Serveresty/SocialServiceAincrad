@@ -2,7 +2,6 @@ package video
 
 import (
 	profiledb "SocialServiceAincrad/internal/database/profile_db"
-	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -11,7 +10,6 @@ import (
 )
 
 func GetVideoByID(c *gin.Context) {
-	fmt.Println("TYT")
 	//id := c.Param("id")
 	vid := c.Param("vid")
 
@@ -33,6 +31,12 @@ func GetVideoByID(c *gin.Context) {
 	}
 
 	dataSize := strconv.FormatInt(info.Size(), 10)
+
+	err = profiledb.AddViewToVideo(vid)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
+		return
+	}
 
 	c.Header("Content-Type", "video/mp4")
 	c.Header("Content-Length", dataSize)

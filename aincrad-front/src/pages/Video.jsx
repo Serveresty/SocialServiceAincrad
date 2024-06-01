@@ -129,7 +129,8 @@ const VideoGrid = () => {
                             key={video.id} 
                             title={video.title} 
                             created={video.created_at} 
-                            preview={video.preview} 
+                            preview={video.preview}
+                            views={video.views} 
                         />
                     </button>
                 ))}
