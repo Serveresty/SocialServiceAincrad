@@ -90,7 +90,7 @@ const RegistrationComponent = () => {
           <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required/>
           <label>Confirm your password</label>
         </div>
-        <button type="button" onClick={handleRegistration}>Create an account</button>
+        <button type="button" id={s.btn} onClick={handleRegistration}>Create an account</button>
         <div className={s.register}>
           <p>Already have an account? <Link to={`/sign-in`}>Login</Link></p>
         </div>

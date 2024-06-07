@@ -1,0 +1,14 @@
+.audio_container {
+    /* display:inline-block; */
+    flex: 1;
+}
+
+#audios {
+    list-style-type: none;
+    padding: 0;
+}
+
+#audios li {
+    margin-bottom: 10px;
+    vertical-align: middle;
+}

@@ -67,7 +67,7 @@ const AuthComponent = () => {
           </label>
           <a href="#">Forgot password?</a>
         </div>
-        <button type="button" onClick={handleLogin}>Log In</button>
+        <button type="button" id={s.btn} onClick={handleLogin}>Log In</button>
         <div className={s.register}>
           <p>Don't have an account? <Link to={`/sign-up`}>Register</Link></p>
         </div>
