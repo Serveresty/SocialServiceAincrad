@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/audio.css';
 import PopupWithInputs from './UploadAudio';
+import s from '../styles/audio.module.css'
 
 const AudioGETComponent = () => {
   const cookies = new Cookies();
@@ -106,8 +106,8 @@ const AudioGETComponent = () => {
   return (
     <div>
       <div><PopupWithInputs/></div>
-      <div className='audio-container'>
-        <ul id="audios">
+      <div className={s.audio_container}>
+        <ul id={s.audios}>
         {Array.isArray(responseData) && responseData.map(audio => (
           <li key={audio.id}><button onClick={() => handlePlayAudio(audio.id)}>
             {`${audio.name} - ${audio.author}`}

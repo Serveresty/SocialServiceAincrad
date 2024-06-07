@@ -1,4 +1,4 @@
-.video-grid {
+.video_grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 16px;
@@ -11,20 +11,20 @@ button {
     cursor: pointer;
 }
 
-.video-preview {
+.video_preview {
     position: relative;
     width: 100%;
     height: auto;
     overflow: hidden;
 }
 
-.video-preview img {
+.video_preview img {
     width: 100%;
     height: auto;
     display: block;
 }
 
-.video-info {
+.video_info {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -36,13 +36,13 @@ button {
     box-sizing: border-box;
 }
 
-.video-info h3 {
+.video_info h3 {
     margin: 0;
     font-size: 16px;
     line-height: 1.2;
 }
 
-.video-info p {
+.video_info p {
     margin: 5px 0 0;
     font-size: 14px;
 }
@@ -55,7 +55,7 @@ video {
     margin-top: 20px;
 }
 
-.modal-overlay {
+.modal_overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -78,7 +78,7 @@ video {
     position: relative;
 }
 
-.close-button {
+.close_button {
     position: absolute;
     top: 2px;
     right: 20px;
@@ -88,32 +88,32 @@ video {
     cursor: pointer;
 }
 
-.comments-section {
+.comments_section {
     margin-top: 20px;
   }
   
-  .comments-section h3 {
+  .comments_section h3 {
     margin: 0 0 10px;
   }
   
-  .comments-section ul {
+  .comments_section ul {
     list-style: none;
     padding: 0;
   }
   
-  .comments-section li {
+  .comments_section li {
     background: #f9f9f9;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 4px;
   }
   
-  .comments-section form {
+  .comments_section form {
     display: flex;
     flex-direction: column;
   }
   
-  .comments-section textarea {
+  .comments_section textarea {
     resize: none;
     padding: 10px;
     margin-bottom: 10px;
@@ -121,7 +121,7 @@ video {
     border-radius: 4px;
   }
   
-  .comments-section button {
+  .comments_section button {
     align-self: flex-end;
     padding: 10px 20px;
     background-color: #007bff;

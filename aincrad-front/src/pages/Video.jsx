@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import VideoPreview from './VideoPreview'
 import UploadVideo from './UploadVideo';
-import '../styles/video_grid.css';
+import s from '../styles/video_grid.module.css';
 
 const VideoGrid = () => {
     const cookies = new Cookies();
@@ -119,7 +119,7 @@ const VideoGrid = () => {
     return (
         <div>
             <div><UploadVideo /></div>
-            <div className="video-grid">
+            <div className={s.video_grid}>
                 {Array.isArray(videos) && videos.map(video => (
                     <button
                         key={video.id}
@@ -136,16 +136,16 @@ const VideoGrid = () => {
                 ))}
             </div>
             {modalOpen && (
-                <div className="modal-overlay" onClick={closeModal}>
-                    <div className="modal" onClick={e => e.stopPropagation()}>
-                        <button className="close-button" onClick={closeModal}>
+                <div className={s.modal_overlay} onClick={closeModal}>
+                    <div className={s.modal} onClick={e => e.stopPropagation()}>
+                        <button className={s.close_button} onClick={closeModal}>
                             &times;
                         </button>
                         <video controls autoPlay>
                             <source src={selectedVideo} type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
-                        <div className="comments-section">
+                        <div className={s.comments_section}>
                             <h3>Comments</h3>
                             <ul>
                                 {comments.map((comment, index) => (
