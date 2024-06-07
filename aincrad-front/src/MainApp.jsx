@@ -9,12 +9,13 @@ import LeftBar from './components/LeftBar';
 import Chat from './pages/Chat';
 import LogoutComponent from './pages/Logout';
 import VideoGrid from './pages/Video';
+import s from './styles/main.module.css'
 
 function MainLayout() {
     return (
-        <div>
+        <div className={s.backgroundd}>
             <Header />
-            <div className="main-container">
+            <div className={s.main_container}>
             <LeftBar />
             <Routes>
                 <Route path="/" element={<MainComponent />}/>

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 
-const EmptyComponent = () => {
+const MainComponent = () => {
   const cookies = new Cookies();
     const history = useNavigate();
   
@@ -20,4 +20,4 @@ const EmptyComponent = () => {
   );
 };
 
-export default EmptyComponent;
+export default MainComponent;
