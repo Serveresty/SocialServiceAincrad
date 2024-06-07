@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { Filecontext } from '../contexts/Filecontext';
+import s from '../styles/auth.module.css'
 
 const AuthComponent = () => {
   const cookies = new Cookies();
@@ -47,32 +48,59 @@ const AuthComponent = () => {
   };
 
   return (
-    <div>
-      <h2>Форма авторизации</h2>
+    <div className={s.backgroundd}>
+    <div className={s.wrapper}>
       <form>
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Пароль:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <br />
-        <button type="button" onClick={handleLogin}>
-          Войти
-        </button>
+        <h2>Login</h2>
+          <div className={s.input_field}>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label>Enter your email</label>
+        </div>
+        <div className={s.input_field}>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <label>Enter your password</label>
+        </div>
+        <div className={s.forget}>
+          <label>
+            <input type="checkbox" id={s.remember} />
+            <p>Remember me</p>
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button type="button" onClick={handleLogin}>Log In</button>
+        <div className={s.register}>
+          <p>Don't have an account? <Link to={`/sign-up`}>Register</Link></p>
+        </div>
       </form>
     </div>
+    </div>
+
+    // <div>
+    //   <h2>Авторизация</h2>
+    //   <form>
+    //     <label>
+    //       Email:
+    //       <input
+    //         type="email"
+    //         value={email}
+    //         onChange={(e) => setEmail(e.target.value)}
+    //       />
+    //     </label>
+    //     <br />
+    //     <label>
+    //       Пароль:
+    //       <input
+    //         type="password"
+    //         value={password}
+    //         onChange={(e) => setPassword(e.target.value)}
+    //       />
+    //     </label>
+    //     <br />
+    //     <button type="button" onClick={handleLogin}>
+    //       Войти
+    //     </button>
+    //   </form>
+    // </div>
   );
 };
 
