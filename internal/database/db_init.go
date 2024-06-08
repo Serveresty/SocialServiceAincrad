@@ -36,7 +36,7 @@ func Mongo_Init(mongoUrl string, ctx context.Context) error {
 
 func CreateBaseTables() error {
 	_, err := DB.Exec(context.Background(),
-		`CREATE TABLE IF NOT EXISTS "users_data" (user_id bigserial PRIMARY KEY, first_name VARCHAR(50) NOT NULL, last_name VARCHAR(50) NOT NULL, sex VARCHAR(10) NOT NULL, username VARCHAR(50) UNIQUE DEFAULT '', email VARCHAR(255) UNIQUE NOT NULL, phone VARCHAR(255) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL);
+		`CREATE TABLE IF NOT EXISTS "users_data" (user_id bigserial PRIMARY KEY, first_name VARCHAR(50) NOT NULL, last_name VARCHAR(50) NOT NULL, birth_date TIMESTAMP, sex VARCHAR(10) NOT NULL, username VARCHAR(50) UNIQUE DEFAULT '', email VARCHAR(255) UNIQUE NOT NULL, phone VARCHAR(255) UNIQUE NOT NULL, avatar VARCHAR(50) DEFAULT 'standard', quote VARCHAR(25),password VARCHAR(255) NOT NULL);
 	CREATE TABLE IF NOT EXISTS "roles" (role_id serial PRIMARY KEY, role_name VARCHAR(20) UNIQUE NOT NULL);
 	CREATE TABLE IF NOT EXISTS "users_roles" (user_id bigint references users_data (user_id) on delete cascade, role_id int references roles (role_id) on delete cascade);
 	CREATE TABLE IF NOT EXISTS "social" (user_id bigint references users_data (user_id) on delete cascade, personal_web VARCHAR(255) DEFAULT '', instagram VARCHAR(50) DEFAULT '', steam VARCHAR(50) DEFAULT '');
@@ -60,7 +60,7 @@ func CreateBaseTables() error {
 
 	CREATE TABLE IF NOT EXISTS "videos" (video_id bigserial PRIMARY KEY, title VARCHAR(55) NOT NULL, description VARCHAR(255), created_at TIMESTAMP, views int DEFAULT 0, filename VARCHAR(55) UNIQUE NOT NULL, preview_name VARCHAR(55) UNIQUE NOT NULL DEFAULT '');
 
-	CREATE TABLE IF NOT EXISTS "messages" (id bigserial PRIMARY KEY, sender_id bigint references users_data (user_id) on delete cascade, receiver_id bigint references users_data (user_id) on delete cascade, message VARCHAR(255), created_at TIMESTAMP);
+	CREATE TABLE IF NOT EXISTS "messages" (id bigserial PRIMARY KEY, sender_id bigint references users_data (user_id) on delete cascade, receiver_id bigint references users_data (user_id) on delete cascade, message VARCHAR(255), photo VARCHAR(255), video VARCHAR(255), created_at TIMESTAMP);
 	`)
 	if err != nil {
 		return fmt.Errorf("error while creating base tables: %v", err)

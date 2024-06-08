@@ -32,6 +32,7 @@ func AllRequests(router *gin.Engine) {
 
 		//Список друзей
 		api.GET("friends", profile.FriendsGET) //Did it
+		api.POST("add-friend/:id", profile.AddFriend)
 
 		//Музыка
 		api.GET("audio", audio.AudioGET)                //Did it not full

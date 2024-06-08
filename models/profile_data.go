@@ -7,6 +7,9 @@ type ProfileData struct {
 	Sex        string    `json:"sex"`
 	MoreInfo   UserInfo  `json:"more_info"`
 	Social     Social    `json:"social"`
+	Avatar     string    `json:"avatar"`
+	Mine       bool      `json:"mine"`
+	Quote      string    `json:"quote"`
 	Friends    []Friends `json:"friends"`
 	Followers  []Friends `json:"followers"`
 }

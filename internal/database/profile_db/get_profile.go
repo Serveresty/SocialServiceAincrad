@@ -4,6 +4,8 @@ import (
 	"SocialServiceAincrad/internal/database"
 	"SocialServiceAincrad/models"
 	"context"
+	"encoding/base64"
+	"io/ioutil"
 )
 
 func GetProfileById(id int) (*models.ProfileData, error) {
@@ -30,6 +32,12 @@ func GetProfileById(id int) (*models.ProfileData, error) {
 		return nil, err
 	}
 
+	avatar, err := GetAvatar(id)
+	if err != nil {
+		return nil, err
+	}
+
+	profileData.Avatar = avatar
 	profileData.Friends = friends
 	profileData.Followers = followers
 
@@ -37,8 +45,8 @@ func GetProfileById(id int) (*models.ProfileData, error) {
 }
 
 func GetGeneralInfo(profileData *models.ProfileData) error {
-	row1 := database.DB.QueryRow(context.Background(), `SELECT first_name, last_name, sex FROM users_data WHERE user_id = $1`, profileData.Id)
-	err := row1.Scan(&profileData.First_name, &profileData.Last_name, &profileData.Sex)
+	row1 := database.DB.QueryRow(context.Background(), `SELECT first_name, last_name, sex, quote FROM users_data WHERE user_id = $1`, profileData.Id)
+	err := row1.Scan(&profileData.First_name, &profileData.Last_name, &profileData.Sex, &profileData.Quote)
 	if err != nil {
 		return err
 	}
@@ -90,6 +98,25 @@ func GetFollowers(id int) ([]models.Friends, error) {
 		follows = append(follows, friend)
 	}
 	return follows, nil
+}
+
+func GetAvatar(id int) (string, error) {
+	var avatarName string
+	row1 := database.DB.QueryRow(context.Background(), `SELECT avatar FROM users_data WHERE user_id = $1`, id)
+	err := row1.Scan(&avatarName)
+	if err != nil {
+		return "", err
+	}
+
+	avatarPath := "../../storages/photo_storage/avatars/" + avatarName + ".jpg"
+	avatarBytes, err := ioutil.ReadFile(avatarPath)
+	if err != nil {
+		return "", err
+	}
+
+	avatarBase64 := base64.StdEncoding.EncodeToString(avatarBytes)
+
+	return avatarBase64, nil
 }
 
 func IsFriendOneByOne(firstId int, secondId int) (bool, error) {

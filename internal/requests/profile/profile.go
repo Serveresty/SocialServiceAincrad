@@ -36,6 +36,7 @@ func ProfileGET(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
 		}
+		profileData.Mine = true
 	} else {
 		idInt, err := strconv.Atoi(id)
 		if err != nil {
@@ -53,6 +54,7 @@ func ProfileGET(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
 		}
+		profileData.Mine = false
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": profileData})
