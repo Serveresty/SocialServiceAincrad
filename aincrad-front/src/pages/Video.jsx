@@ -5,6 +5,7 @@ import axios from 'axios';
 import VideoPreview from './VideoPreview'
 import UploadVideo from './UploadVideo';
 import s from '../styles/video_grid.module.css';
+import icon from '../static/views.svg'
 
 const VideoGrid = () => {
     const cookies = new Cookies();
@@ -14,6 +15,8 @@ const VideoGrid = () => {
     const [selectedVideo, setSelectedVideo] = useState(null);
     const [comment, setComment] = useState("");
     const [comments, setComments] = useState([]);
+    const [vidName, setVidName] = useState("");
+    const [views, setViews] = useState("");
     const { id } = useParams();
 
     useEffect(() => {
@@ -86,6 +89,8 @@ const VideoGrid = () => {
             //     },
             // });
             // setComments(commentsResponse.data.comments);
+            setVidName(video.title)
+            setViews(video.views)
             setModalOpen(true);
         } catch (error) {
             console.error('Error handling video click', error);
@@ -145,6 +150,10 @@ const VideoGrid = () => {
                             <source src={selectedVideo} type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
+                        <div className={s.info}>
+                            <h1>{vidName}</h1>
+                            <label id={s.vw}><img src={icon} width="30" height="30"/> {views}</label>
+                        </div>
                         <div className={s.comments_section}>
                             <h3>Comments</h3>
                             <ul>
@@ -153,7 +162,7 @@ const VideoGrid = () => {
                                 ))}
                             </ul>
                             <form onSubmit={handleCommentSubmit}>
-                                <textarea
+                                <textarea className={s.txtArea}
                                     value={comment}
                                     onChange={(e) => setComment(e.target.value)}
                                     placeholder="Leave a comment"
