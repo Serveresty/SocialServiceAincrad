@@ -61,7 +61,7 @@ const RegistrationComponent = () => {
     <div className={s.backgroundd}>
     <div className={s.wrapper}>
       <form>
-        <h2>Login</h2>
+        <h2>Registration</h2>
           <div className={s.input_field}>
           <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required/>
           <label>Enter your first name</label>
