@@ -118,10 +118,10 @@ const VideoGrid = () => {
 
     return (
         <div>
-            <div><UploadVideo /></div>
+            <div className={s.upload}><UploadVideo /></div>
             <div className={s.video_grid}>
                 {Array.isArray(videos) && videos.map(video => (
-                    <button
+                    <button className={s.vid}
                         key={video.id}
                         onClick={() => handleVideoClick(video)}
                     >

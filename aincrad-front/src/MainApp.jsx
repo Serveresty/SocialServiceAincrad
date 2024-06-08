@@ -15,8 +15,9 @@ function MainLayout() {
     return (
         <div className={s.backgroundd}>
             <Header />
-            <div className={s.main_container}>
+            <div className={s.sec_container}>
             <LeftBar />
+            <div className={s.main_container}>
             <Routes>
                 <Route path="/" element={<MainComponent />}/>
                 <Route path="/logout" element={<LogoutComponent />} />
@@ -26,6 +27,7 @@ function MainLayout() {
                 <Route path="/messages" element={<Chat />} />
                 <Route path="/video/:id" element={<VideoGrid />} />
             </Routes>
+            </div>
             </div>
         </div>
     );

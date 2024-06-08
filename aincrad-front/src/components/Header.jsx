@@ -11,9 +11,9 @@ const Header = () => {
         <header>
             <div className="header-container">
                 <ul id="header-nav">
-                    <li><button>Music</button></li>
+                    <li><button className="btns">Music</button></li>
                     <li><Link to="/"><img src={logo} height="50" width="200"></img></Link></li>
-                    <li><Link to={`/${logID}`}><button>Profile</button></Link></li>
+                    <li><Link to={`/${logID}`}><button className="btns">Profile</button></Link></li>
                 </ul>
             </div>
         </header>

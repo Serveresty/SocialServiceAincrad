@@ -61,7 +61,6 @@ video {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -129,4 +128,22 @@ video {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+
+  .upload {
+    margin-bottom: 3vh;
+  }
+
+  .vid {
+    background-color: rgba(8, 8, 43, 0.479); 
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .vid:hover {
+    background-color: rgba(42, 42, 243, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }

@@ -16,7 +16,7 @@ const LeftBar = () => {
                 <li><a href="/groups">Groups</a></li>
                 <li><a href="/photos">Photos</a></li>
                 <li><Link to={`/audio?id=${logID}`}>Audios</Link></li>
-                <li><a href="/videos">Videos</a></li>
+                <li><Link to={`/video/${logID}`}>Videos</Link></li>
             </ul>
         </div>
     )
