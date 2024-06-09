@@ -3,8 +3,13 @@ import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import s from '../styles/profile.module.css'
+import like from '../static/like.svg'
+import comment from '../static/comment.svg'
+import views from '../static/views.svg'
+import pin from '../static/pin.svg'
 
 const ProfileComponent = () => {
+    const [posts, setPosts] = useState(null)
     const [profileData, setProfileData] = useState(null);
     const [friendList, setFriendList] = useState(null);
     const { id } = useParams();
@@ -119,12 +124,60 @@ const ProfileComponent = () => {
               </div>
             </div>
           </div>
+
+
+            <div className={s.container}>
+            <div className={s.ff}>
+
+            <div className={s.newPost}>
+                      <textarea className={s.postT} placeholder="Enter post data"></textarea>
+                      <button type="submit" className={s.sendBtn}>Send</button>
+                      <img src={pin} width="30" height="30" className={s.pin}/>
+            </div>
+
             <div className={s.posts}>
-              
+                    <div className={s.post}>
+                        <div className={s.datas}>
+                            <div className={s.avatars}>
+                              {profileData && (
+                                <img src={`data:image/jpeg;base64,${profileData.avatar}`} style={{ width: '70px', height: 'auto' }}/>
+                              )}
+                            </div>
+                            {profileData && (
+                              <h1>{profileData.first_name} {profileData.last_name}</h1>
+                            )}
+                            </div>
+                          <div className={s.postText}>
+                            Народ, до 11 числа я в Москве!
+                            Стримов не будет, но буду на съёмках, паре мероприятий, так что поделюсь интересностями.
+                          </div>
+                          <div className={s.pstIc}>
+                            <img src={like} width="30" height="30"/> <text id={s.stats}>5</text>       
+                            <img src={comment} width="23" height="23"/> <text id={s.stats}>7</text>
+                            <img src={views} width="23" height="23"/> <text id={s.statsV}>14</text>
+                          </div>
+                    </div>
             </div>
+            </div>
+
+            <div className={s.right}>
             <div className={s.friendList}>
-              
+                <h1>Friends:</h1>
+                <p>You don't have any friends yet</p>
             </div>
+            <div className={s.presents}>
+                <h1>Presents:</h1>
+                <p>You don't have any gifts yet</p>
+            </div>
+            <div className={s.subs}>
+                <h1>Subscriptions:</h1>
+                <p>You haven't subscribed to anyone yet</p>
+            </div>
+            </div>
+
+            </div>
+
+
         </div>
       );
 };

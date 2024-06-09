@@ -27,6 +27,22 @@
     min-height: 100%;
 }
 
+.avatars {
+    margin-left: 30px;
+    border-radius: 50%;
+    border: 3px solid rgb(60, 243, 60);
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+}
+
+.avatars img {
+  display: block;
+  min-width: 100%;
+  min-height: 100%;
+}
+
 .general {
     display: flex;
     align-items: center; 
@@ -39,6 +55,10 @@
     color: white;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
+}
+
+.inf h1 {
+  font-size: 28px;
 }
 
 .btns {
@@ -81,4 +101,196 @@
     background-color: rgba(42, 42, 243, 0.24);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+  }
+
+  .container {
+    display: flex;
+  }
+
+  .posts {
+    display: flex;
+    align-items: center; 
+    width: 655px;
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: rgba(42, 42, 243, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    margin-top: 5px;
+  }
+
+  .post {
+    align-items: center; 
+    width: 400px;
+    margin-left: 5px;
+  }
+
+  .post h1 {
+    font-size: 15px;
+  }
+
+  .datas {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .postText {
+    align-items: center;
+    width: 625px;
+    height: auto;
+    color: white;
+    margin: 5px;
+    font-size: 30px;
+
+    padding: 10px; /* Внутренний отступ */
+    word-wrap: break-word; /* Перенос длинных слов */
+    overflow-wrap: break-word; /* Перенос длинных слов (новый стандарт) */
+    white-space: normal; /* Нормальное поведение переноса текста */
+
+    border-radius: 5px;
+
+    background-color: rgba(42, 42, 243, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .newPost {
+    width: 655px;
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: rgba(42, 42, 243, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .postT {
+    width: 645px;
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: rgba(42, 42, 243, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    outline: none;
+    padding: 5px;
+    color: white;
+  }
+
+  .postT::placeholder {
+    color: white;
+    font-size: 18px;
+    text-align: left;
+    padding-left: 5px;
+    padding-top: 5px;
+  }
+
+  .sendBtn {
+    background-color: rgba(8, 8, 43, 0.479); 
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid white;
+  }
+
+  .sendBtn:hover {
+      background-color: rgba(42, 42, 243, 0.24);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+  }
+
+  .pstIc {
+    margin-left: 5px;
+    width: 645px;
+  }
+
+  #stats {
+    margin-right: 15px;
+  }
+
+  #statsV {
+  }
+
+  .pin {
+    margin-left: 5px;
+    position: relative;
+    top: 10px;
+  }
+  .ff {
+    display: block;
+  }
+
+  .friendList {
+    width: 340px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: rgba(42, 42, 243, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+
+  .friendList h1 {
+    color: white;
+    font-size: 18px;
+  }
+
+  .friendList p {
+    margin-top: 15px;
+    color: white;
+    padding-bottom: 5px;
+  }
+
+  .right {
+
+  }
+
+  .presents {
+    width: 340px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: rgba(42, 42, 243, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+
+  .presents h1 {
+    color: white;
+    font-size: 18px;
+  }
+
+  .presents p {
+    margin-top: 15px;
+    color: white;
+    padding-bottom: 5px;
+  }
+
+  .subs {
+    width: 340px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: rgba(42, 42, 243, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+
+  .subs h1 {
+    color: white;
+    font-size: 18px;
+  }
+
+  .subs p {
+    margin-top: 15px;
+    color: white;
+    padding-bottom: 5px;
   }
