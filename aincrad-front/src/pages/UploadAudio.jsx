@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { useParams, useNavigate } from 'react-router-dom';
+import s from '../styles/audio_upload.module.css'
+import u from '../static/upload.svg'
 //import './PopupWithInputs.css'; // Импортируем файл стилей
 
 function PopupWithInputs() {
@@ -8,6 +10,7 @@ function PopupWithInputs() {
   const [inputValue1, setInputValue1] = useState('');
   const [inputValue2, setInputValue2] = useState('');
   const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState('');
 
   const cookies = new Cookies();
     const history = useNavigate();
@@ -32,7 +35,9 @@ function PopupWithInputs() {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setFile(file);
+    setFileName(file ? file.name : '');
   };
 
   const handleSubmit = async (e) => {
@@ -71,30 +76,33 @@ function PopupWithInputs() {
   };
 
   return (
-    <div>
-      <button onClick={togglePopup}>Открыть всплывающее окно</button>
+    <div className={s.btttn}>
+      <button className={s.opn} onClick={togglePopup}><img src={u} width="20" height="20"/></button>
       {isOpen && (
-        <div className="popup-container">
-          <div className="popup-content">
-            <button className="close-btn" onClick={togglePopup}>Закрыть</button>
+        <div className={s.popupContainer}>
+          <div className={s.popupContent}>
+            <button className={s.closeButton} onClick={togglePopup}>×</button>
             <form onSubmit={handleSubmit}>
-              <input
+              <label className={s.lbl}>Введите название: </label>
+              <input className={s.inpt_name}
                 type="text"
                 value={inputValue1}
                 onChange={handleInputChange1}
                 placeholder="Введите название"
               />
-              <input
+              <label className={s.lbl}>Введите исполнителя: </label>
+              <input className={s.inpt_desc}
                 type="text"
                 value={inputValue2}
                 onChange={handleInputChange2}
                 placeholder="Введите исполнителя"
               />
-              <input
-                type="file"
-                onChange={handleFileChange}
-              />
-              <button type="submit">Отправить</button>
+              <label className={s.custom_file_upload}>
+                Загрузить файл
+                <input id={s.file_upload} type="file" onChange={handleFileChange} />
+              </label>
+              {fileName && <span className={s.file_name}>{fileName}</span>}
+              <button type="submit" className={s.send_vid}>Отправить</button>
             </form>
           </div>
         </div>
