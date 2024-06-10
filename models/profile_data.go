@@ -29,6 +29,7 @@ type Social struct {
 
 type Friends struct {
 	FriendId        int    `json:"friend_id"`
+	Avatar          string `json:"avatar"`
 	FriendUsername  string `json:"friend_username"`
 	FriendFirstName string `json:"friend_first_name"`
 	FriendLastName  string `json:"friend_last_name"`

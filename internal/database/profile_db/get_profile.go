@@ -64,17 +64,27 @@ func GetAdditionalInfo(profileData *models.ProfileData) error {
 
 func GetFriends(id int) ([]models.Friends, error) {
 	var friends []models.Friends
-	row3, err := database.DB.Query(context.Background(), `SELECT ud.user_id, ud.first_name, ud.last_name, ud.username FROM users_data ud JOIN friends f ON CASE WHEN f.first = $1 THEN ud.user_id = f.second WHEN f.second = $1 THEN ud.user_id = f.first END JOIN friend_status fs ON fs.status_name = $2 AND fs.status_id = f.status_id`, id, "friend")
+	row3, err := database.DB.Query(context.Background(), `SELECT ud.user_id, ud.avatar, ud.first_name, ud.last_name, ud.username FROM users_data ud JOIN friends f ON CASE WHEN f.first = $1 THEN ud.user_id = f.second WHEN f.second = $1 THEN ud.user_id = f.first END JOIN friend_status fs ON fs.status_name = $2 AND fs.status_id = f.status_id`, id, "friend")
 	if err != nil {
 		return nil, err
 	}
 
 	for row3.Next() {
 		var friend models.Friends
-		err = row3.Scan(&friend.FriendId, &friend.FriendFirstName, &friend.FriendLastName, &friend.FriendUsername)
+		err = row3.Scan(&friend.FriendId, &friend.Avatar, &friend.FriendFirstName, &friend.FriendLastName, &friend.FriendUsername)
 		if err != nil {
 			return nil, err
 		}
+
+		avatarPath := "../../storages/photo_storage/avatars/" + friend.Avatar + ".jpg"
+		avatarBytes, err := ioutil.ReadFile(avatarPath)
+		if err != nil {
+			return nil, err
+		}
+
+		avatarBase64 := base64.StdEncoding.EncodeToString(avatarBytes)
+
+		friend.Avatar = avatarBase64
 
 		friends = append(friends, friend)
 	}

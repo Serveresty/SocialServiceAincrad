@@ -1,0 +1,125 @@
+.avatar {
+    margin-left: 30px;
+    border-radius: 50%;
+    border: 3px solid rgb(60, 243, 60);
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+}
+
+.avatar img {
+    display: block;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.btn {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    padding: 5px;
+    width: 600px;
+}
+
+.btn:hover {
+    background-color: rgba(108, 0, 250, 0.37);
+}
+
+.names {
+    color: white;
+    font-size: 20px;
+    margin-left: 15px;
+}
+
+#lst {
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.friendlist {
+    display: flex;
+}
+
+.friendBtns {
+    width: 215px;
+    height: 160px;
+    margin-left: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.rightBtn {
+    width: 200px;
+    margin: 5px;
+    background-color: rgba(8, 8, 43, 0.479); 
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.rightBtn:hover {
+    background-color: rgba(42, 42, 243, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .search {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search input {
+    width: 500px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: rgba(42, 42, 243, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    margin-bottom: 5px;
+    outline: none;
+    padding: 5px;
+    color: white;
+  }
+
+  .search input::placeholder {
+    color: white;
+  }
+
+  .central {
+    border-radius: 5px;
+    padding: 15px;
+    border: 1px solid white;
+    background-color: rgba(240, 240, 248, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .central label {
+    color: white;
+    padding: 5px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: rgba(240, 240, 248, 0.24);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .loupe {
+    margin-left: 5px;
+    position: relative;
+    top: 7px;
+  }
+
+  .sBtn {
+
+  }

@@ -11,7 +11,7 @@ const Header = () => {
         <header>
             <div className="header-container">
                 <ul id="header-nav">
-                    <li><button className="btns">Music</button></li>
+                    <li><Link to={`/logout`}><button className="btns">Logout</button></Link></li>
                     <li><Link to="/"><img src={logo} height="50" width="200"></img></Link></li>
                     <li><Link to={`/${logID}`}><button className="btns">Profile</button></Link></li>
                 </ul>

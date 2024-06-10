@@ -6,6 +6,7 @@ import (
 	jwtservice "SocialServiceAincrad/internal/jwt-service"
 	"SocialServiceAincrad/models"
 	"SocialServiceAincrad/utils"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -36,6 +37,7 @@ func FriendsGET(c *gin.Context) {
 	if userID == "" {
 		friendData, err := showBySection(c, section, currentUserId)
 		if err != nil {
+			fmt.Println(err.Error())
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
